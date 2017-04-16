@@ -1,0 +1,15 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "AngleSharp": "0.9.9",
+    "OpenTK.NETCore": "1.1.2571.6431"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}
