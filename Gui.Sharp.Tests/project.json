@@ -2,10 +2,13 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Gui.Sharp": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
-    "AngleSharp": "0.9.9",
-    "OpenTK.NETCore": "1.1.2571.6431"
+    "NUnit": "3.6.1",
+    "dotnet-test-nunit": "3.4.0-beta-3"
   },
+
+  "testRunner": "nunit",
 
   "frameworks": {
     "netcoreapp1.0": {
