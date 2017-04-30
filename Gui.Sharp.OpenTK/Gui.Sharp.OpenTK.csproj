@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <AssemblyName>Gui.Sharp.OpenTK</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Gui.Sharp.OpenTK</PackageId>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.9" />
+    <PackageReference Include="OpenTK.NETCore" Version="1.1.2571.6431" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gui.Sharp.Gfx\Gui.Sharp.Gfx.csproj" />
+    <ProjectReference Include="..\Gui.Sharp\Gui.Sharp.csproj" />
+  </ItemGroup>
+
+</Project>
