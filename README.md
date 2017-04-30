@@ -3,7 +3,7 @@ An HTML/CSS renderer that uses AngleSharp for parsing and OpenGL graphic engine 
 
 ## Technology
 1. AngleSharp (https://github.com/AngleSharp/AngleSharp) 
-<p>Used  to parse HTML content and render elements based on the HTML/CSS specifications.</p>
+<span>Used  to parse HTML content and render elements based on the HTML/CSS specifications.</span>
 
 2. OpenTK (https://www.opengl.org)
 <p>Low-level C# binding for OpenGL, OpenGL ES and OpenAL.</p>
