@@ -1,9 +1,6 @@
 # GUIsharp
 An HTML/CSS renderer that uses AngleSharp for parsing and OpenGL graphic engine for displaying. 
 
-## General
-Render HTML/CSS content using OpenGL graphic engine. 
-
 ## Technology
 1. AngleSharp (https://github.com/AngleSharp/AngleSharp) 
 Used  to parse HTML content and render elements based on the HTML/CSS specifications.
