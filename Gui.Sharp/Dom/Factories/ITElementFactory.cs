@@ -1,11 +1,10 @@
-﻿using AngleSharp.Dom;
-using Gui.Sharp.Dom.Interfaces;
+﻿using IElement = Gui.Sharp.Dom.Interfaces.IElement;
 
 namespace Gui.Sharp.Dom.Factories
 {
     interface ITElementFactory<T>
-        where T : IElement
+        where T : AngleSharp.Dom.IElement
     {
-        ITElement Create(IElement htmlElement);
+        IElement Create(AngleSharp.Dom.IElement htmlElement);
     }
 }

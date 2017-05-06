@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
-    <AssemblyName>Gui.Sharp.OpenTK</AssemblyName>
+    <AssemblyName>Gui.Sharp.Samples</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>Gui.Sharp.OpenTK</PackageId>
+    <PackageId>Gui.Sharp.Samples</PackageId>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gui.Sharp.Gfx\Gui.Sharp.Gfx.csproj" />
     <ProjectReference Include="..\Gui.Sharp\Gui.Sharp.csproj" />
   </ItemGroup>
 

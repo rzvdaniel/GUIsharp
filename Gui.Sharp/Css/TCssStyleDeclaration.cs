@@ -7,7 +7,7 @@ namespace Gui.Sharp.Css
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    public class TCssStyleDeclaration : ITCssStyleDeclaration, INotifyPropertyChanged
+    public class TCssStyleDeclaration : ICssStyleDeclaration, INotifyPropertyChanged
     {
         #region CSS Properties
 

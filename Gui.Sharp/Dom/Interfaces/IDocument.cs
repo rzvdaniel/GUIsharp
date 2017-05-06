@@ -1,10 +1,10 @@
 ﻿namespace Gui.Sharp.Dom.Interfaces
 {
-    public interface ITDocument
+    public interface IDocument
     {
         #region Properties
 
-        ITElement Body { get; set; }
+        IElement Body { get; set; }
 
         #endregion
 

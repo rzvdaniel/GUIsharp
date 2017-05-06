@@ -1,28 +1,31 @@
 ﻿using AngleSharp.Css.Values;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Css;
 using AngleSharp.Extensions;
-using Gui.Sharp.Dom.Interfaces;
 using AngleSharp.Services.Default;
-using System.Collections.Generic;
-using Gui.Sharp.Css.Interfaces;
 using Gui.Sharp.Css;
+using Gui.Sharp.Gfx.Factories;
+using Gui.Sharp.Gfx.Interfaces;
+using System.Collections.Generic;
+using ICssStyleDeclaration = Gui.Sharp.Css.Interfaces.ICssStyleDeclaration;
+using IElement = Gui.Sharp.Dom.Interfaces.IElement;
 
 namespace Gui.Sharp.Dom
 {
-    public class TElement : ITElement
+    public class TElement : IElement
     {
-        public IList<ITElement> Children { get; set; }
-        public ITCssStyleDeclaration CssStyle { get; set; }
+        public IGfxCanvas Canvas { get; set; }
+        public IList<IElement> Children { get; set; }
+        public ICssStyleDeclaration CssStyle { get; set; }
 
         public TElement() {}
 
-        public TElement(IElement htmlElement)
+        public TElement(AngleSharp.Dom.IElement htmlElement)
         {
+            Canvas = GfxFactory.Create<IGfxCanvas>();
             var cssStyle = htmlElement.ComputeCurrentStyle();
+
             InitStyle(cssStyle);
 
-            Children = new List<ITElement>();
+            Children = new List<IElement>();
             var elementFactory = new TElementFactory();
 
             foreach (var child in htmlElement.Children)
@@ -33,7 +36,7 @@ namespace Gui.Sharp.Dom
             }
         }
 
-        private void InitStyle(ICssStyleDeclaration cssStyle)
+        private void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
         {
             CssStyle = new TCssStyleDeclaration();
 
@@ -51,6 +54,14 @@ namespace Gui.Sharp.Dom
             Length.TryParse(cssValue, out length);
 
             return length;
+        }
+
+        public virtual void Paint()
+        {
+            foreach (var child in Children)
+            {
+                child.Paint();
+            }
         }
     }
 }

@@ -16,8 +16,4 @@
     <PackageReference Include="OpenTK.NETCore" Version="1.1.2571.6431" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Gui.Sharp.Gfx\Gui.Sharp.Gfx.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,8 +1,9 @@
-﻿using OpenTK;
+﻿using Gui.Sharp.Gfx.Interfaces;
+using OpenTK;
 
 namespace Gui.Sharp.Gfx
 {
-    public abstract class TGfxServer
+    public abstract class TGfxServer : IGfxServer
     {
         public Color ClearColor { get; set; }
         public int Width { get; set; }

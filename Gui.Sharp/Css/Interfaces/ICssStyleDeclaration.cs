@@ -4,7 +4,7 @@ using AngleSharp.Css.Values;
 namespace Gui.Sharp.Css.Interfaces
 {
     [DomName("CSSStyleDeclaration")]
-    public interface ITCssStyleDeclaration
+    public interface ICssStyleDeclaration
     {
         #region CSS Property Values
 

@@ -6,19 +6,19 @@ namespace Gui.Sharp.Gfx
 {
     public class TGLCanvas : IGfxCanvas
     {
-        public Point PenPos { get; set; }
+        public PointF PenPos { get; set; }
         public TBrush Brush { get; set; }
         public TPen Pen { get; set; }
         public float TextAntialias { get; set; }
 
         public TGLCanvas()
         {
-            PenPos = new Point();
+            PenPos = new PointF();
             Brush = new TBrush();
             Pen = new TPen();
         }
 
-        public void DrawRect(int x, int y, int width, int height, int border)
+        public void DrawRect(float x, float y, float width, float height, int border)
         {
             for (int i = 0; i < border; i++)
             {
@@ -30,7 +30,7 @@ namespace Gui.Sharp.Gfx
             }
         }
 
-        public void DrawRect(Rectangle rect, int border)
+        public void DrawRect(RectangleF rect, int border)
         {
             DrawRect(rect.X, rect.Y, rect.Width, rect.Height, border);
         }
@@ -88,12 +88,12 @@ namespace Gui.Sharp.Gfx
             FillRect(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public void MoveTo(int x, int y)
+        public void MoveTo(float x, float y)
         {
-            PenPos = new Point(x, y);
+            PenPos = new PointF(x, y);
         }
 
-        public void LineTo(int x, int y)
+        public void LineTo(float x, float y)
         {
             Color Color = Pen.Color;
 

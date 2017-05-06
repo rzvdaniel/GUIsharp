@@ -6,9 +6,9 @@ using System;
 
 namespace Gui.Sharp.Dom
 {
-    public class TDocument : ITDocument
+    public class TDocument : IDocument
     {
-        public ITElement Body { get; set; }
+        public IElement Body { get; set; }
 
         public TDocument()  {}
 

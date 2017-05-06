@@ -1,16 +1,20 @@
-﻿using Gui.Sharp.Gfx;
+﻿using Gui.Sharp.Dom.Interfaces;
+using Gui.Sharp.Gfx;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 
 namespace Gui.Sharp
 {
-    public abstract class TScreen
+    public abstract class TScreen : IScreen
     {
-        public TGfxServer GfxServer { get; set; }
+        public IGfxServer GfxServer { get; set; }
         public IGfxCanvas Canvas { get; set; }
+        public IDocument Document { get; set; }
 
-        public virtual void Create(int width, int height, Color clearColor)
+        public virtual void Create(int width, int height, Color clearColor, IDocument document)
         {
+            Document = document;
+
             // Create the canvas. Need a canvas for the screen. For example,
             // the screen render the mouse cursor. Because it render something, 
             // we need an already created Canvas. 
@@ -28,21 +32,7 @@ namespace Gui.Sharp
         {
             GfxServer.Begin();
 
-            // TODO! 
-            // This is just a test to see some drawing on the screen. To be removed.
-
-            var rect = new Rectangle(50, 50, 300, 200);
-            Canvas.Pen.Color = Color.Black;
-            Canvas.Pen.Style = TPenStyle.psSolid;
-            Canvas.DrawRect(rect, 2);
-
-            var rect2 = new Rectangle(200, 200, 200, 200);
-            Canvas.Brush.Color = Color.Red;
-            Canvas.Brush.Style = TBrushStyle.bsSolid;
-            Canvas.FillRect(rect2);
-
-            // TODO!
-            // Do the control's drawing
+            Document.Body.Paint();
 
             GfxServer.End();
         }
