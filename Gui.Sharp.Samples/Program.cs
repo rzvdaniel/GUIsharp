@@ -8,54 +8,22 @@ namespace Gui.Sharp.OpenTK
 {
     public class Program
     {
-        static string htmlDocument = @"
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset=""utf-8"" />
-                    <title></title>
-                    <style>
-                        body
-                        {
-                            background-color: green !important;
-                            width: 100%;
-                        }
-
-                        div
-                        {
-                            width:300px;
-                            height: 200px;
-                        }
-                    </style>
-                </head>
-                <body style=""background-color: red"">
-                    <div>
-                        <p>Hello</p>
-                    </div>
-                    <div>
-                        <p>World!</p>
-                    </div>
-                </body>
-            </html>";
-
         [STAThread]
         static void Main(string[] args)
         {
             string html;
             string path = args.Length > 0 ? args[0] : string.Empty;
+            string defaultPath = "..\\Gui.Sharp.Samples\\Resources\\Default.html";
 
-            if (string.IsNullOrEmpty(path))
+            if(string.IsNullOrEmpty(path) || !File.Exists(path))
             {
-                html = htmlDocument;
+                path = defaultPath;
             }
-            else
+            
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
             {
-                var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
-                {
-                    html = streamReader.ReadToEnd();
-                }
+                html = streamReader.ReadToEnd();
             }
 
             // We request 30 UpdateFrame events per second, and unlimited
