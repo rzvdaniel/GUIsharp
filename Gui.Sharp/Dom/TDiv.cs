@@ -1,5 +1,5 @@
 ﻿using AngleSharp.Dom;
-using Gui.Sharp.Gfx;
+using Gui.Sharp.Gfx.Drawing;
 using OpenTK;
 
 namespace Gui.Sharp.Dom

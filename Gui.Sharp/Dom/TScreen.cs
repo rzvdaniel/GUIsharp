@@ -1,9 +1,8 @@
 ﻿using Gui.Sharp.Dom.Interfaces;
-using Gui.Sharp.Gfx;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 
-namespace Gui.Sharp
+namespace Gui.Sharp.Dom
 {
     public abstract class TScreen : IScreen
     {

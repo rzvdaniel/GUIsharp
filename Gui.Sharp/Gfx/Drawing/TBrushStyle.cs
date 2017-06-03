@@ -1,4 +1,4 @@
-﻿namespace Gui.Sharp.Gfx
+﻿namespace Gui.Sharp.Gfx.Drawing
 {
     public enum TBrushStyle
     {

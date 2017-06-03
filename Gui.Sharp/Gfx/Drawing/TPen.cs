@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Gui.Sharp.Gfx
+namespace Gui.Sharp.Gfx.Drawing
 {
     public class TPen
     {

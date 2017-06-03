@@ -1,8 +1,9 @@
-﻿using Gui.Sharp.Gfx.Interfaces;
+﻿using Gui.Sharp.Gfx.Drawing;
+using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Gui.Sharp.Gfx
+namespace Gui.Sharp.Gfx.OpenGL
 {
     public class TGLCanvas : IGfxCanvas
     {

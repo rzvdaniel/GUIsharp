@@ -1,4 +1,5 @@
-﻿using Gui.Sharp.Gfx;
+﻿using Gui.Sharp.Gfx.Factories;
+using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 using System;
 using System.IO;
@@ -26,12 +27,9 @@ namespace Gui.Sharp.OpenTK
                 html = streamReader.ReadToEnd();
             }
 
-            // We request 30 UpdateFrame events per second, and unlimited
-            // RenderFrame events (as fast as the computer can handle).
-            using (var game = new TGLGame(800, 600, GameWindowFlags.Default, html))
-            {
-                game.Run(30.0);
-            }
+            var game = GfxFactory.Create<IGfxGame>();
+            game.Create(800, 600, GameWindowFlags.Default, html);
+            game.Run(30.0);
         }
     }
 }

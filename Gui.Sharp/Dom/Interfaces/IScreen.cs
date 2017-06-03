@@ -1,7 +1,7 @@
-﻿using Gui.Sharp.Dom.Interfaces;
+﻿using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 
-namespace Gui.Sharp.Gfx.Interfaces
+namespace Gui.Sharp.Dom.Interfaces
 {
     public interface IScreen
     {

@@ -1,8 +1,8 @@
-﻿using Gui.Sharp.Dom.Interfaces;
-using Gui.Sharp.Gfx;
+﻿using Gui.Sharp.Dom;
+using Gui.Sharp.Dom.Interfaces;
 using OpenTK;
 
-namespace Gui.Sharp
+namespace Gui.Sharp.Gfx.OpenGL
 {
     public class TGLScreenIndependent : TScreen
     {
