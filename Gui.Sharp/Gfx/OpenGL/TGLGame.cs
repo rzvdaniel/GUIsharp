@@ -11,10 +11,16 @@ namespace Gui.Sharp.Gfx.OpenGL
 {
     public class TGLGame : IGfxGame
     {
-        public IScreen Screen { get; set; }
-        public GameWindow Window { get; set; }
+        #region Properties
 
-        public void Create(int width, int height, GameWindowFlags windowFlags, string  htmlDocument)
+        private GameWindow Window { get; set; }
+        public IScreen Screen { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void Create(int width, int height, GameWindowFlags windowFlags, string htmlDocument)
         {
             var document = DomFactory.Create<IDocument>();
             document.Parse(htmlDocument);
@@ -71,6 +77,11 @@ namespace Gui.Sharp.Gfx.OpenGL
             Window.Run();
         }
 
+        #endregion
+
+
+        #region Event Handlers
+
         private void OnLoad(object sender, EventArgs e)
         {
         }
@@ -88,7 +99,6 @@ namespace Gui.Sharp.Gfx.OpenGL
                 Window.Exit();
         }
 
-
         private void OnResize(object sender, EventArgs e)
         {
         }
@@ -96,5 +106,7 @@ namespace Gui.Sharp.Gfx.OpenGL
         private void OnDispose(object sender, EventArgs e)
         {
         }
+
+        #endregion
     }
 }
