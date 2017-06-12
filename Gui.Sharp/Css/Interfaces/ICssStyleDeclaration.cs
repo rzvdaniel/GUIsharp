@@ -821,31 +821,31 @@ namespace Gui.Sharp.Css.Interfaces
         /// Gets or sets the margin value.
         /// </summary>
         [DomName("margin")]
-        string Margin { get; set; }
+        Length Margin { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-bottom value.
         /// </summary>
         [DomName("marginBottom")]
-        string MarginBottom { get; set; }
+        Length MarginBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-left value.
         /// </summary>
         [DomName("marginLeft")]
-        string MarginLeft { get; set; }
+        Length MarginLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-right value.
         /// </summary>
         [DomName("marginRight")]
-        string MarginRight { get; set; }
+        Length MarginRight { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-top value.
         /// </summary>
         [DomName("marginTop")]
-        string MarginTop { get; set; }
+        Length MarginTop { get; set; }
 
         /// <summary>
         /// Gets or sets the marker value.
@@ -971,31 +971,31 @@ namespace Gui.Sharp.Css.Interfaces
 		/// Gets or sets the padding value.
 		/// </summary>
 		[DomName("padding")]
-        string Padding { get; set; }
+        Length Padding { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-bottom value.
         /// </summary>
         [DomName("paddingBottom")]
-        string PaddingBottom { get; set; }
+        Length PaddingBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-left value.
         /// </summary>
         [DomName("paddingLeft")]
-        string PaddingLeft { get; set; }
+        Length PaddingLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-right value.
         /// </summary>
         [DomName("paddingRight")]
-        string PaddingRight { get; set; }
+        Length PaddingRight { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-top value.
         /// </summary>
         [DomName("paddingTop")]
-        string PaddingTop { get; set; }
+        Length PaddingTop { get; set; }
 
         /// <summary>
         /// Gets or sets the page-break-after value.

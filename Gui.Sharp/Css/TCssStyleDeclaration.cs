@@ -689,27 +689,27 @@ namespace Gui.Sharp.Css
         /// <summary>
         /// Gets or sets the margin value.
         /// </summary>
-        public string Margin { get; set; }
+        public Length Margin { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-bottom value.
         /// </summary>
-        public string MarginBottom { get; set; }
+        public Length MarginBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-left value.
         /// </summary>
-        public string MarginLeft { get; set; }
+        public Length MarginLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-right value.
         /// </summary>
-        public string MarginRight { get; set; }
+        public Length MarginRight { get; set; }
 
         /// <summary>
         /// Gets or sets the margin-top value.
         /// </summary>
-        public string MarginTop { get; set; }
+        public Length MarginTop { get; set; }
 
         /// <summary>
         /// Gets or sets the marker value.
@@ -814,27 +814,27 @@ namespace Gui.Sharp.Css
 		/// <summary>
 		/// Gets or sets the padding value.
 		/// </summary>
-        public string Padding { get; set; }
+        public Length Padding { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-bottom value.
         /// </summary>
-        public string PaddingBottom { get; set; }
+        public Length PaddingBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-left value.
         /// </summary>
-        public string PaddingLeft { get; set; }
+        public Length PaddingLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-right value.
         /// </summary>
-        public string PaddingRight { get; set; }
+        public Length PaddingRight { get; set; }
 
         /// <summary>
         /// Gets or sets the padding-top value.
         /// </summary>
-        public string PaddingTop { get; set; }
+        public Length PaddingTop { get; set; }
 
         /// <summary>
         /// Gets or sets the page-break-after value.

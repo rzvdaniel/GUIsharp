@@ -12,10 +12,9 @@ namespace Gui.Sharp.Dom
 
         public override void Paint()
         {
-            var rect = new RectangleF(0, 0, CssStyle.Width.Value, CssStyle.Height.Value);
             Canvas.Pen.Color = Color.Black;
             Canvas.Pen.Style = TPenStyle.psSolid;
-            Canvas.DrawRect(rect, 2);
+            Canvas.DrawRect(BoundingBox, 2);
 
             base.Paint();
         }
