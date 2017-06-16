@@ -11,14 +11,18 @@ using System.Collections.Generic;
 
 namespace Gui.Sharp.Dom
 {
-    public class TElement : IElement
+    public abstract class TElement : IElement
     {
+        #region Properties
+
         public IGfxCanvas Canvas { get; set; }
-        public IElement Parent { get; set; }
-        public IList<IElement> Children { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
         public RectangleF BoundingBox { get; private set; }
 
+        #region Tree Navigation
+
+        public IElement Parent { get; set; }
+        public IList<IElement> Children { get; set; }
         public IElement PreviousSibling
         {
             get
@@ -39,7 +43,6 @@ namespace Gui.Sharp.Dom
                 return null;
             }
         }
-
         public IElement NextSibling
         {
             get
@@ -61,6 +64,10 @@ namespace Gui.Sharp.Dom
             }
         }
 
+        #endregion
+
+        #endregion
+
         public TElement() {}
 
         public TElement(AngleSharp.Dom.IElement htmlElement)
@@ -80,6 +87,32 @@ namespace Gui.Sharp.Dom
                 Children.Add(element);
             }
         }
+
+        public void ComputeBoundingBox()
+        {
+            foreach (var child in Children)
+            {
+                child.ComputeBoundingBox();
+            }
+
+            BoundingBox = new RectangleF()
+            {
+                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
+                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
+                Width = CssStyle.Width.Value,
+                Height = CssStyle.Height.Value
+            };
+        }
+
+        public virtual void Paint()
+        {
+            foreach (var child in Children)
+            {
+                child.Paint();
+            }
+        }
+
+        #region Private Methods
 
         private void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
         {
@@ -113,28 +146,6 @@ namespace Gui.Sharp.Dom
             return length;
         }
 
-        public void ComputeBoundingBox()
-        {
-            foreach (var child in Children)
-            {
-                child.ComputeBoundingBox();
-            }
-
-            BoundingBox = new RectangleF()
-            {
-                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
-                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
-                Width = CssStyle.Width.Value,
-                Height = CssStyle.Height.Value
-            };
-        }
-
-        public virtual void Paint()
-        {
-            foreach (var child in Children)
-            {
-                child.Paint();
-            }
-        }
+        #endregion
     }
 }

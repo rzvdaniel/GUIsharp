@@ -12,11 +12,11 @@ namespace Gui.Sharp.Dom
 
         public override void Paint()
         {
+            base.Paint();
+
             Canvas.Pen.Color = Color.Black;
             Canvas.Pen.Style = TPenStyle.psSolid;
             Canvas.DrawRect(BoundingBox, 2);
-
-            base.Paint();
         }
     }
 }
