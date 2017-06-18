@@ -3,6 +3,7 @@ using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
 using Gui.Sharp.Css;
 using Gui.Sharp.Css.Interfaces;
+using Gui.Sharp.Dom.Enums.Properties;
 using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
@@ -88,22 +89,6 @@ namespace Gui.Sharp.Dom
             }
         }
 
-        public void ComputeBoundingBox()
-        {
-            foreach (var child in Children)
-            {
-                child.ComputeBoundingBox();
-            }
-
-            BoundingBox = new RectangleF()
-            {
-                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
-                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
-                Width = CssStyle.Width.Value,
-                Height = CssStyle.Height.Value
-            };
-        }
-
         public virtual void Paint()
         {
             foreach (var child in Children)
@@ -112,7 +97,106 @@ namespace Gui.Sharp.Dom
             }
         }
 
+        #region Protected Methods
+
+        /// <summary>
+        /// Default bounding box computing
+        /// </summary>
+        public virtual void ComputeBoundingBox()
+        {
+            foreach (var child in Children)
+            {
+                child.ComputeBoundingBox();
+            }
+
+            BoundingBox = CssStyle.Position == Position.Absolute ?
+                ComputeAbsolutePosition() :
+                ComputeRelativePosition();
+        }
+
+        #endregion
+
         #region Private Methods
+
+        private RectangleF ComputeRelativePosition()
+        {
+            RectangleF boundingBox;
+
+            var floatProperty = CssStyle.Float == Float.Inherit ? Parent.CssStyle.Float : CssStyle.Float;
+
+            switch (floatProperty)
+            {
+                case Float.Left:
+                    boundingBox = ComputeLeftFlow();
+                    break;
+
+                case Float.Right:
+                    boundingBox = ComputeRightFlow();
+                    break;
+
+                default:
+                    boundingBox = ComputeNormalFlow();
+                    break;
+            }
+
+            return boundingBox;
+        }
+
+        /// <summary>
+        /// Compute bounding box according with the normal flow
+        /// </summary>
+        /// <remarks>
+        /// In the normal flow, each block element (div, p, h1, etc.) stacks on top of each other vertically, 
+        /// from the top of the viewport down. Floated elements are first laid out according to the normal flow, 
+        /// then taken out of the normal flow and sent as far to the right or left (depending on which value is applied) 
+        /// of the parent element. In other words, they go from stacking on top of each other to sitting next to each other, 
+        /// given that there is enough room in the parent element for each floated element to sit. 
+        /// </remarks>
+        /// <see cref="https://www.w3.org/TR/CSS21/visuren.html#normal-flow"/>
+        /// <returns></returns>
+        private RectangleF ComputeNormalFlow()
+        {
+            var boundingBox = new RectangleF()
+            {
+                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
+                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
+                Width = CssStyle.Width.Value,
+                Height = CssStyle.Height.Value
+            };
+
+            return boundingBox;
+        }
+
+        private RectangleF ComputeLeftFlow()
+        {
+            var boundingBox = new RectangleF()
+            {
+                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
+                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
+                Width = CssStyle.Width.Value,
+                Height = CssStyle.Height.Value
+            };
+
+            return boundingBox;
+        }
+
+        private RectangleF ComputeRightFlow()
+        {
+            var boundingBox = new RectangleF()
+            {
+                X = Parent != null ? Parent.BoundingBox.X : 0.0f,
+                Y = PreviousSibling != null ? PreviousSibling.BoundingBox.Bottom : 0.0f,
+                Width = CssStyle.Width.Value,
+                Height = CssStyle.Height.Value
+            };
+
+            return boundingBox;
+        }
+
+        private RectangleF ComputeAbsolutePosition()
+        {
+            return new RectangleF();
+        }
 
         private void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
         {
@@ -136,6 +220,8 @@ namespace Gui.Sharp.Dom
                 PaddingBottom = GetLength(cssStyle.PaddingBottom),
                 PaddingLeft = GetLength(cssStyle.PaddingLeft),
                 PaddingRight = GetLength(cssStyle.PaddingRight),
+
+                Float = cssStyle.Float,
             };
         }
 

@@ -11,11 +11,13 @@ namespace Gui.Sharp.Dom.Interfaces
         IElement Parent { get; set; }
         IElement PreviousSibling { get; }
         IElement NextSibling { get; }
-        ICssStyleDeclaration CssStyle { get; set; }
+
         IGfxCanvas Canvas { get; set; }
         RectangleF BoundingBox { get; }
-        void ComputeBoundingBox();
+
+        ICssStyleDeclaration CssStyle { get; set; }
 
         void Paint();
+        void ComputeBoundingBox();
     }
 }
