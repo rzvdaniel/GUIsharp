@@ -6,6 +6,7 @@ namespace Gui.Sharp.Dom
     {
         public TBody(IElement htmlElement) : base(htmlElement)
         {
+            ComputeBoundingBox();
         }
     }
 }
