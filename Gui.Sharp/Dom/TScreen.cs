@@ -6,6 +6,7 @@ namespace Gui.Sharp.Dom
 {
     public abstract class TScreen : IScreen
     {
+        
         public IGfxServer GfxServer { get; set; }
         public IGfxCanvas Canvas { get; set; }
         public IDocument Document { get; set; }
