@@ -13,7 +13,8 @@ namespace Gui.Sharp.Dom.Interfaces
         IElement NextSibling { get; }
 
         IGfxCanvas Canvas { get; set; }
-        RectangleF BoundingBox { get; }
+        RectangleF BoundingBox { get; set; }
+        string FloatProperty { get; }
 
         ICssStyleDeclaration CssStyle { get; set; }
 

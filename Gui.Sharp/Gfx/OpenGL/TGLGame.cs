@@ -22,11 +22,8 @@ namespace Gui.Sharp.Gfx.OpenGL
 
         public void Create(int width, int height, GameWindowFlags windowFlags, string htmlDocument)
         {
-            var document = DomFactory.Create<IDocument>();
-            document.Parse(htmlDocument);
-
             Screen = GfxFactory.Create<IScreen>();
-            Screen.Create(width, height, Color.White, document);
+            Screen.Create(width, height, Color.White, htmlDocument);
 
             Window = new GameWindow(width, height, GraphicsMode.Default, "Gui Sharp Tests", windowFlags)
             {
