@@ -1,4 +1,5 @@
-﻿using Gui.Sharp.Dom.Interfaces;
+﻿using Gui.Sharp.Dom.Factories;
+using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 
@@ -6,14 +7,20 @@ namespace Gui.Sharp.Dom
 {
     public abstract class TScreen : IScreen
     {
-        
+        public static int Width { get; private set; }
+        public static int Height { get; private set; }
+
         public IGfxServer GfxServer { get; set; }
         public IGfxCanvas Canvas { get; set; }
         public IDocument Document { get; set; }
 
-        public virtual void Create(int width, int height, Color clearColor, IDocument document)
+        public virtual void Create(int width, int height, Color clearColor, string htmlDocument)
         {
-            Document = document;
+            Width = width;
+            Height = height;
+
+            Document = DomFactory.Create<IDocument>();
+            Document.Parse(htmlDocument);
 
             // Create the canvas. Need a canvas for the screen. For example,
             // the screen render the mouse cursor. Because it render something, 

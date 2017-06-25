@@ -9,7 +9,7 @@ namespace Gui.Sharp.Dom.Interfaces
         IGfxCanvas Canvas { get; set; }
         IDocument Document { get; set; }
 
-        void Create(int width, int height, Color clearColor, IDocument document);
+        void Create(int width, int height, Color clearColor, string htmlDocument);
         void Paint();
     }
 }

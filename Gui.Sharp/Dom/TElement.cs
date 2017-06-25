@@ -19,7 +19,7 @@ namespace Gui.Sharp.Dom
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
         public RectangleF BoundingBox { get; set; }
-
+        
         public string FloatProperty
         {
             get
@@ -94,9 +94,10 @@ namespace Gui.Sharp.Dom
 
         #region Private Properties
 
+        private PointF _floatLeftPosition;
+        private PointF _floatRightPosition;
         private LinkedList<IElement> _normalFlowChildren;
-        private LinkedList<IElement> _leftFlowChildren;
-        private LinkedList<IElement> _rightFlowChildren;
+        private LinkedList<IElement> _floatFlowChildren;
         private LinkedList<IElement> _absoluteFlowChildren;
 
         #endregion
@@ -105,9 +106,10 @@ namespace Gui.Sharp.Dom
 
         public TElement(AngleSharp.Dom.IElement htmlElement)
         {
+            _floatLeftPosition = new PointF();
+            _floatRightPosition = new PointF(TScreen.Width, 0);
             _normalFlowChildren = new LinkedList<IElement>();
-            _leftFlowChildren = new LinkedList<IElement>();
-            _rightFlowChildren = new LinkedList<IElement>();
+            _floatFlowChildren = new LinkedList<IElement>();
             _absoluteFlowChildren = new LinkedList<IElement>();
 
             Canvas = GfxFactory.Create<IGfxCanvas>();
@@ -133,11 +135,8 @@ namespace Gui.Sharp.Dom
             switch (element.FloatProperty)
             {
                 case Float.Left:
-                    _leftFlowChildren.AddLast(element);
-                    break;
-
                 case Float.Right:
-                    _rightFlowChildren.AddLast(element);
+                    _floatFlowChildren.AddLast(element);
                     break;
 
                 case Float.None:
@@ -155,14 +154,14 @@ namespace Gui.Sharp.Dom
                 normalChild.Paint();
             }
 
-            foreach (var leftChild in _leftFlowChildren)
+            foreach (var floatChild in _floatFlowChildren)
             {
-                leftChild.Paint();
+                floatChild.Paint();
             }
 
-            foreach (var rightChild in _rightFlowChildren)
+            foreach (var absoluteChild in _absoluteFlowChildren)
             {
-                rightChild.Paint();
+                absoluteChild.Paint();
             }
         }
 
@@ -173,127 +172,55 @@ namespace Gui.Sharp.Dom
         /// </summary>
         public virtual void ComputeBoundingBox()
         {
-            ComputeNormalFlow();
-            ComputeFloatFlow();
-            ComputeAbsoluteFlow();
+            foreach(var child in Children)
+            {
+                var box = new RectangleF();
+                box.Width = child.CssStyle.Width.Value;
+                box.Height = child.CssStyle.Height.Value;
+
+                /// <summary>
+                /// Compute bounding box according with the normal flow
+                /// </summary>
+                /// <remarks>
+                /// In the normal flow, each block element (div, p, h1, etc.) stacks on top of each other vertically, 
+                /// from the top of the viewport down. Floated elements are first laid out according to the normal flow, 
+                /// then taken out of the normal flow and sent as far to the right or left (depending on which value is applied) 
+                /// of the parent element. In other words, they go from stacking on top of each other to sitting next to each other, 
+                /// given that there is enough room in the parent element for each floated element to sit. 
+                /// </remarks>
+                /// <see cref="https://www.w3.org/TR/CSS21/visuren.html#normal-flow"/>
+                if (child.FloatProperty == Float.None)
+                {
+                    _floatLeftPosition.X = 0.0f;
+
+                    box.X = _floatLeftPosition.X;
+                    box.Y = _floatLeftPosition.Y;
+
+                    _floatLeftPosition.Y += box.Height;
+                    _floatRightPosition.Y += box.Height;
+                }
+                else if (child.FloatProperty == Float.Left)
+                {
+                    box.X = _floatLeftPosition.X;
+                    box.Y = _floatLeftPosition.Y;
+
+                    _floatLeftPosition.X += box.Width;
+                }
+                else if (child.FloatProperty == Float.Right)
+                {
+                    box.X = _floatRightPosition.X - box.Width;
+                    box.Y = _floatRightPosition.Y;
+
+                    _floatRightPosition.X -= box.Width;
+                }
+
+                child.BoundingBox = box;
+            }
         }
 
         #endregion
 
         #region Private Methods
-
-        /// <summary>
-        /// Compute bounding box according with the normal flow
-        /// </summary>
-        /// <remarks>
-        /// In the normal flow, each block element (div, p, h1, etc.) stacks on top of each other vertically, 
-        /// from the top of the viewport down. Floated elements are first laid out according to the normal flow, 
-        /// then taken out of the normal flow and sent as far to the right or left (depending on which value is applied) 
-        /// of the parent element. In other words, they go from stacking on top of each other to sitting next to each other, 
-        /// given that there is enough room in the parent element for each floated element to sit. 
-        /// </remarks>
-        /// <see cref="https://www.w3.org/TR/CSS21/visuren.html#normal-flow"/>
-        /// <returns></returns>
-        private void ComputeNormalFlow()
-        {
-            for (var child = _normalFlowChildren.First; child != null; child = child.Next)
-            {
-                child.Value.BoundingBox = new RectangleF()
-                {
-                    X = child.Value.Parent.BoundingBox.Left,
-                    Y = child.Previous != null ?
-                        child.Previous.Value.BoundingBox.Bottom :
-                        child.Value.Parent.BoundingBox.Top,
-                    Width = child.Value.CssStyle.Width.Value,
-                    Height = child.Value.CssStyle.Height.Value
-                };
-
-                child.Value.ComputeBoundingBox();
-            }
-        }
-
-        private void ComputeFloatFlow()
-        {
-            for (var child = _leftFlowChildren.First; child != null; child = child.Next)
-            {
-                var box = new RectangleF();
-
-                if(child.Previous != null)
-                {
-                    box.X = child.Previous.Value.BoundingBox.Right;
-                }
-                else
-                {
-                    box.X = child.Value.Parent.BoundingBox.Left;
-                }
-
-                if(child.Previous != null)
-                {
-                    box.Y = child.Previous.Value.BoundingBox.Top;
-                }
-                else
-                {
-                    if (child.Value.PreviousSibling != null)
-                    {
-                        box.Y = child.Value.PreviousSibling.FloatProperty != Float.None ?
-                                child.Value.PreviousSibling.BoundingBox.Top :
-                                child.Value.PreviousSibling.BoundingBox.Bottom;
-                    }
-                    else
-                    {
-                        box.Y = child.Value.Parent.BoundingBox.Top;
-                    }
-                }
-
-                box.Width = child.Value.CssStyle.Width.Value;
-                box.Height = child.Value.CssStyle.Height.Value;
-
-                child.Value.BoundingBox = box;
-                child.Value.ComputeBoundingBox();
-            }
-
-            for (var child = _rightFlowChildren.First; child != null; child = child.Next)
-            {
-                var box = new RectangleF();
-
-                if (child.Previous != null)
-                {
-                    box.X = child.Previous.Value.BoundingBox.Left - child.Value.CssStyle.Width.Value;
-                }
-                else
-                {
-                    box.X = child.Value.Parent.BoundingBox.Right - child.Value.CssStyle.Width.Value;
-                }
-
-                if (child.Previous != null)
-                {
-                    box.Y = child.Previous.Value.BoundingBox.Top;
-                }
-                else
-                {
-                    if (child.Value.PreviousSibling != null)
-                    {
-                        box.Y = child.Value.PreviousSibling.FloatProperty != Float.None ?
-                                child.Value.PreviousSibling.BoundingBox.Top :
-                                child.Value.PreviousSibling.BoundingBox.Bottom;
-                    }
-                    else
-                    {
-                        box.Y = child.Value.Parent.BoundingBox.Top;
-                    }
-                }
-
-                box.Width = child.Value.CssStyle.Width.Value;
-                box.Height = child.Value.CssStyle.Height.Value;
-
-                child.Value.BoundingBox = box;
-                child.Value.ComputeBoundingBox();
-            }
-        }
-
-        private void ComputeAbsoluteFlow()
-        {
-        }
 
         private void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
         {

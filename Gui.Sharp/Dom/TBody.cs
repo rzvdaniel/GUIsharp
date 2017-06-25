@@ -26,8 +26,8 @@ namespace Gui.Sharp.Dom
             {
                 X = BoundingBox.X,
                 Y = BoundingBox.Y,
-                Width = BoundingBox.Width != 0.0f ? BoundingBox.Width : 800,
-                Height = BoundingBox.Height != 0.0f ? BoundingBox.Height : 600,
+                Width = BoundingBox.Width != 0.0f ? BoundingBox.Width : TScreen.Width,
+                Height = BoundingBox.Height != 0.0f ? BoundingBox.Height : TScreen.Height,
             };
 
             BoundingBox = box;
