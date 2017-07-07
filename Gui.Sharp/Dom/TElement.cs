@@ -102,11 +102,6 @@ namespace Gui.Sharp.Dom
 
             ComputeBoundingBox();
 
-            ParseChildren(htmlElement);
-        }
-
-        private void ParseChildren(AngleSharp.Dom.IElement htmlElement)
-        {
             var elementFactory = new TElementFactory();
 
             foreach (AngleSharp.Dom.IElement htmlChild in htmlElement.Children)
@@ -158,7 +153,7 @@ namespace Gui.Sharp.Dom
 
                 RightFloatPosition.X -= box.Width;
 
-                if (RightFloatPosition.X - box.Width < BoundingBox.Left)
+                if (RightFloatPosition.X < BoundingBox.Left)
                 {
                     RightFloatPosition.X = BoundingBox.Width;
                     RightFloatPosition.Y += box.Height;
@@ -184,6 +179,12 @@ namespace Gui.Sharp.Dom
             //TODO! Take element's Position into consideration too.
         }
 
+        public virtual void ComputeBoundingBox()
+        {
+            LeftFloatPosition = PointF.Zero;
+            RightFloatPosition = new PointF(Parent.BoundingBox.Width, 0.0f);
+        }
+
         public virtual void Paint()
         {
             foreach (var child in _normalFlowChildren)
@@ -200,15 +201,6 @@ namespace Gui.Sharp.Dom
             {
                 child.Paint();
             }
-        }
-
-        /// <summary>
-        /// Default bounding box computing
-        /// </summary>
-        public virtual void ComputeBoundingBox()
-        {
-            LeftFloatPosition = PointF.Zero;
-            RightFloatPosition = new PointF(Parent.BoundingBox.Width, 0.0f);
         }
 
         public string GetFloatAttribute()

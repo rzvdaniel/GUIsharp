@@ -10,7 +10,7 @@ namespace Gui.Sharp.Dom
     {
         public override void ComputeBoundingBox()
         {
-            var box = new RectangleF
+            BoundingBox = new RectangleF
             {
                 X = 0.0f,
                 Y = 0.0f,
@@ -18,7 +18,8 @@ namespace Gui.Sharp.Dom
                 Height = CssStyle.Height.Value != 0.0f ? CssStyle.Height.Value : TScreen.Height,
             };
 
-            BoundingBox = box;
+            LeftFloatPosition = PointF.Zero;
+            RightFloatPosition = new PointF(BoundingBox.Width, 0.0f);
         }
 
         protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
