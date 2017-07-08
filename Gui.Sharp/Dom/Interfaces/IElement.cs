@@ -7,18 +7,16 @@ namespace Gui.Sharp.Dom.Interfaces
 {
     public interface IElement
     {
-        IList<IElement> Children { get; set; }
         IElement Parent { get; set; }
-        IElement PreviousSibling { get; }
-        IElement NextSibling { get; }
+        IList<IElement> Children { get; set; }
 
         IGfxCanvas Canvas { get; set; }
         RectangleF BoundingBox { get; set; }
-        string FloatProperty { get; }
-
         ICssStyleDeclaration CssStyle { get; set; }
 
         void Paint();
+        void Parse(AngleSharp.Dom.IElement htmlElement);
         void ComputeBoundingBox();
+        string GetFloat();
     }
 }

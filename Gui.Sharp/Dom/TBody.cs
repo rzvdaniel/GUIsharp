@@ -1,38 +1,35 @@
 ﻿using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
+using AngleSharp.Services.Default;
 using OpenTK;
+using CssValues = AngleSharp.Css.Values;
 
 namespace Gui.Sharp.Dom
 {
     public class TBody : TElement
     {
-        public TBody(IElement htmlElement) : base(htmlElement)
+        public override void ComputeBoundingBox()
         {
-            var box = new RectangleF
+            BoundingBox = new RectangleF
             {
                 X = 0.0f,
                 Y = 0.0f,
-                Width = CssStyle.Width.Value,
-                Height = CssStyle.Height.Value
+                Width = CssStyle.Width.Value != 0.0f ? CssStyle.Width.Value : TScreen.Width,
+                Height = CssStyle.Height.Value != 0.0f ? CssStyle.Height.Value : TScreen.Height,
             };
 
-            BoundingBox = box;
-
-            ComputeBoundingBox();
+            LeftFloatPosition = PointF.Zero;
+            RightFloatPosition = new PointF(BoundingBox.Width, 0.0f);
         }
 
-        public override void ComputeBoundingBox()
+        protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
         {
-            var box = new RectangleF
+            base.InitStyle(cssStyle);
+
+            if (CssStyle.Width.Value == 0.0f)
             {
-                X = BoundingBox.X,
-                Y = BoundingBox.Y,
-                Width = BoundingBox.Width != 0.0f ? BoundingBox.Width : TScreen.Width,
-                Height = BoundingBox.Height != 0.0f ? BoundingBox.Height : TScreen.Height,
-            };
-
-            BoundingBox = box;
-
-            base.ComputeBoundingBox();
+                CssStyle.Width = new CssValues.Length(TScreen.Width, CssValues.Length.Unit.None);
+            }
         }
     }
 }
