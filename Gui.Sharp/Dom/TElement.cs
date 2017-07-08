@@ -1,5 +1,4 @@
 ﻿using AngleSharp.Css.Values;
-using AngleSharp.Dom.Html;
 using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
 using Gui.Sharp.Css;
@@ -10,7 +9,6 @@ using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 using System.Collections.Generic;
-using System;
 
 namespace Gui.Sharp.Dom
 {
@@ -29,48 +27,6 @@ namespace Gui.Sharp.Dom
 
         public IElement Parent { get; set; }
 
-        public IElement PreviousSibling
-        {
-            get
-            {
-                if (Parent != null)
-                {
-                    var n = Parent.Children.Count;
-
-                    for (var i = 1; i < n; i++)
-                    {
-                        if (ReferenceEquals(Parent.Children[i], this))
-                        {
-                            return Parent.Children[i - 1];
-                        }
-                    }
-                }
-
-                return null;
-            }
-        }
-
-        public IElement NextSibling
-        {
-            get
-            {
-                if (Parent != null)
-                {
-                    var n = Parent.Children.Count - 1;
-
-                    for (var i = 0; i < n; i++)
-                    {
-                        if (ReferenceEquals(Parent.Children[i], this))
-                        {
-                            return Parent.Children[i + 1];
-                        }
-                    }
-                }
-
-                return null;
-            }
-        }
-
         public IList<IElement> Children { get; set; }
 
         #endregion
@@ -82,7 +38,6 @@ namespace Gui.Sharp.Dom
         private IList<IElement> _normalFlowChildren;
         private IList<IElement> _floatFlowChildren;
         private IList<IElement> _absoluteFlowChildren;
-
 
         #endregion
 
@@ -116,13 +71,89 @@ namespace Gui.Sharp.Dom
             }
         }
 
+        public virtual void ComputeBoundingBox()
+        {
+            LeftFloatPosition = PointF.Zero;
+            RightFloatPosition = new PointF(Parent.BoundingBox.Width, 0.0f);
+        }
+
+        public virtual void Paint()
+        {
+            foreach (var child in _normalFlowChildren)
+            {
+                child.Paint();
+            }
+
+            foreach (var child in _floatFlowChildren)
+            {
+                child.Paint();
+            }
+
+            foreach (var child in _absoluteFlowChildren)
+            {
+                child.Paint();
+            }
+        }
+
+        #region Protected Methods
+
+        protected virtual void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
+        {
+            CssStyle = new TCssStyleDeclaration()
+            {
+                Width = GetLength(cssStyle.Width),
+                Height = GetLength(cssStyle.Height),
+
+                MaxWidth = GetLength(cssStyle.MaxWidth),
+                MaxHeight = GetLength(cssStyle.MaxHeight),
+
+                MinWidth = GetLength(cssStyle.MinWidth),
+                MinHeight = GetLength(cssStyle.MinHeight),
+
+                MarginTop = GetLength(cssStyle.MarginTop),
+                MarginBottom = GetLength(cssStyle.MarginBottom),
+                MarginLeft = GetLength(cssStyle.MarginLeft),
+                MarginRight = GetLength(cssStyle.MarginRight),
+
+                PaddingTop = GetLength(cssStyle.PaddingTop),
+                PaddingBottom = GetLength(cssStyle.PaddingBottom),
+                PaddingLeft = GetLength(cssStyle.PaddingLeft),
+                PaddingRight = GetLength(cssStyle.PaddingRight),
+
+                Float = cssStyle.Float,
+            };
+        }
+
+        public string GetFloat()
+        {
+            string attribute = string.Empty;
+
+            if (CssStyle.Float == Float.Inherit && Parent != null)
+            {
+                attribute = Parent.CssStyle.Float;
+            }
+            else
+            {
+                attribute = CssStyle.Float;
+            }
+
+            if (string.IsNullOrEmpty(attribute))
+                attribute = Float.None;
+
+            return attribute;
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private void ComputeChildBoundingBox(IElement element)
         {
             var box = new RectangleF();
             box.Width = element.CssStyle.Width.Value;
             box.Height = element.CssStyle.Height.Value;
 
-            var childFloatAttribute = element.GetFloatAttribute();
+            var childFloatAttribute = element.GetFloat();
 
             if (childFloatAttribute == Float.None)
             {
@@ -165,7 +196,7 @@ namespace Gui.Sharp.Dom
 
         private void AddToFlowList(IElement element)
         {
-            switch (element.GetFloatAttribute())
+            switch (element.GetFloat())
             {
                 case Float.None:
                     _normalFlowChildren.Add(element);
@@ -178,82 +209,6 @@ namespace Gui.Sharp.Dom
 
             //TODO! Take element's Position into consideration too.
         }
-
-        public virtual void ComputeBoundingBox()
-        {
-            LeftFloatPosition = PointF.Zero;
-            RightFloatPosition = new PointF(Parent.BoundingBox.Width, 0.0f);
-        }
-
-        public virtual void Paint()
-        {
-            foreach (var child in _normalFlowChildren)
-            {
-                child.Paint();
-            }
-
-            foreach (var child in _floatFlowChildren)
-            {
-                child.Paint();
-            }
-
-            foreach (var child in _absoluteFlowChildren)
-            {
-                child.Paint();
-            }
-        }
-
-        public string GetFloatAttribute()
-        {
-            string attribute = string.Empty;
-
-            if (CssStyle.Float == Float.Inherit && Parent != null)
-            {
-                attribute = Parent.CssStyle.Float;
-            }
-            else
-            {
-                attribute = CssStyle.Float;
-            }
-
-            if (string.IsNullOrEmpty(attribute))
-                attribute = Float.None;
-
-            return attribute;
-        }
-
-        #region Protected Methods
-
-        protected virtual void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
-        {
-            CssStyle = new TCssStyleDeclaration()
-            {
-                Width = GetLength(cssStyle.Width),
-                Height = GetLength(cssStyle.Height),
-
-                MaxWidth = GetLength(cssStyle.MaxWidth),
-                MaxHeight = GetLength(cssStyle.MaxHeight),
-
-                MinWidth = GetLength(cssStyle.MinWidth),
-                MinHeight = GetLength(cssStyle.MinHeight),
-
-                MarginTop = GetLength(cssStyle.MarginTop),
-                MarginBottom = GetLength(cssStyle.MarginBottom),
-                MarginLeft = GetLength(cssStyle.MarginLeft),
-                MarginRight = GetLength(cssStyle.MarginRight),
-
-                PaddingTop = GetLength(cssStyle.PaddingTop),
-                PaddingBottom = GetLength(cssStyle.PaddingBottom),
-                PaddingLeft = GetLength(cssStyle.PaddingLeft),
-                PaddingRight = GetLength(cssStyle.PaddingRight),
-
-                Float = cssStyle.Float,
-            };
-        }
-
-        #endregion
-
-        #region Private Methods
 
         private Length GetLength(string cssValue)
         {
