@@ -20,7 +20,7 @@ namespace Gui.Sharp.Dom
 
             var factory = new TElementFactory();
             Body = factory.Create(document.Body);
-            Body.ComputeBoundingBox();
+            Body.Parse(document.Body);
         }
 
         public void Render()

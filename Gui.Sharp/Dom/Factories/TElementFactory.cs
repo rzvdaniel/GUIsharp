@@ -11,14 +11,14 @@ namespace AngleSharp.Services.Default
     /// </summary>
     public class TElementFactory : ITElementFactory<Dom.IElement>
     {
-        private delegate IElement Creator(Dom.IElement htmlElement);
+        private delegate IElement Creator();
 
         private readonly Dictionary<string, Creator> creators = new Dictionary<string, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { "HtmlBodyElement", (htmlElement) => new TBody(htmlElement) },
-            { "HtmlDivElement", (htmlElement) => new TDiv(htmlElement) },
-            { "HtmlParagraphElement", (htmlElement) => new TParagraph(htmlElement) },
-            { "HtmlSpanElement", (htmlElement) => new TSpan(htmlElement) },
+            { "HtmlBodyElement", () => new TBody() },
+            { "HtmlDivElement", () => new TDiv() },
+            { "HtmlParagraphElement", () => new TParagraph() },
+            { "HtmlSpanElement", () => new TSpan() },
         };
 
         public IElement Create(Dom.IElement htmlElement)
@@ -29,12 +29,12 @@ namespace AngleSharp.Services.Default
 
             if (creators.TryGetValue(type.Name, out creator))
             {
-                return creator(htmlElement);
+                return creator();
             }
 
             // Default to span element 
             creators.TryGetValue("HtmlSpanElement", out creator);
-            return creator(htmlElement);
+            return creator();
         }
     }
 }
