@@ -66,7 +66,7 @@ namespace Gui.Sharp.Dom
                 element.Parse(htmlChild);
 
                 Children.Add(element);
-                ComputeChildBoundingBox(element);
+                ComputeBoundingBox(element);
                 AddToFlowList(element);
             }
         }
@@ -147,7 +147,7 @@ namespace Gui.Sharp.Dom
 
         #region Private Methods
 
-        private void ComputeChildBoundingBox(IElement element)
+        private void ComputeBoundingBox(IElement element)
         {
             var box = new RectangleF();
             box.Width = element.CssStyle.Width.Value;
