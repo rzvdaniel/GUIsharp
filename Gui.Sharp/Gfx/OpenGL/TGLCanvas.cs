@@ -36,7 +36,7 @@ namespace Gui.Sharp.Gfx.OpenGL
             DrawRect(rect.X, rect.Y, rect.Width, rect.Height, border);
         }
 
-        public void FillRect(int x, int y, int width, int height)
+        public void FillRect(float x, float y, float width, float height)
         {
             Color Color = Brush.Color;
 
@@ -84,7 +84,7 @@ namespace Gui.Sharp.Gfx.OpenGL
             }
         }
 
-        public void FillRect(Rectangle rect)
+        public void FillRect(RectangleF rect)
         {
             FillRect(rect.X, rect.Y, rect.Width, rect.Height);
         }

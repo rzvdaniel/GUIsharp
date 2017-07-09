@@ -1,10 +1,11 @@
-﻿using AngleSharp.Css.Values;
-using AngleSharp.Extensions;
+﻿using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
+using Gui.Sharp.Core.Extensions;
 using Gui.Sharp.Css;
 using Gui.Sharp.Css.Interfaces;
 using Gui.Sharp.Dom.Enums.Properties;
 using Gui.Sharp.Dom.Interfaces;
+using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
@@ -16,6 +17,10 @@ namespace Gui.Sharp.Dom
     {
         #region Public Properties
 
+        protected Color DefaultBackgroundColor { get; set; }
+        protected Color DefaultBorderColor { get; set; }
+        protected Color DefaultColor { get; set; }
+
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
 
@@ -26,7 +31,6 @@ namespace Gui.Sharp.Dom
         #region Tree Navigation
 
         public IElement Parent { get; set; }
-
         public IList<IElement> Children { get; set; }
 
         #endregion
@@ -49,6 +53,10 @@ namespace Gui.Sharp.Dom
 
             Children = new List<IElement>();
             Canvas = GfxFactory.Create<IGfxCanvas>();
+
+            DefaultBackgroundColor = new Color(255, 255, 255, 255);
+            DefaultBorderColor = new Color(0, 0, 0, 255);
+            DefaultColor = new Color(0, 0, 0, 255);
         }
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
@@ -66,7 +74,7 @@ namespace Gui.Sharp.Dom
                 element.Parse(htmlChild);
 
                 Children.Add(element);
-                ComputeChildBoundingBox(element);
+                ComputeBoundingBox(element);
                 AddToFlowList(element);
             }
         }
@@ -101,27 +109,34 @@ namespace Gui.Sharp.Dom
         {
             CssStyle = new TCssStyleDeclaration()
             {
-                Width = GetLength(cssStyle.Width),
-                Height = GetLength(cssStyle.Height),
+                Width = cssStyle.Width.GetLength(),
+                Height = cssStyle.Height.GetLength(),
 
-                MaxWidth = GetLength(cssStyle.MaxWidth),
-                MaxHeight = GetLength(cssStyle.MaxHeight),
+                MaxWidth = cssStyle.MaxWidth.GetLength(),
+                MaxHeight = cssStyle.MaxHeight.GetLength(),
 
-                MinWidth = GetLength(cssStyle.MinWidth),
-                MinHeight = GetLength(cssStyle.MinHeight),
+                MinWidth = cssStyle.MinWidth.GetLength(),
+                MinHeight = cssStyle.MinHeight.GetLength(),
 
-                MarginTop = GetLength(cssStyle.MarginTop),
-                MarginBottom = GetLength(cssStyle.MarginBottom),
-                MarginLeft = GetLength(cssStyle.MarginLeft),
-                MarginRight = GetLength(cssStyle.MarginRight),
+                MarginTop = cssStyle.MarginTop.GetLength(),
+                MarginBottom = cssStyle.MarginBottom.GetLength(),
+                MarginLeft = cssStyle.MarginLeft.GetLength(),
+                MarginRight = cssStyle.MarginRight.GetLength(),
 
-                PaddingTop = GetLength(cssStyle.PaddingTop),
-                PaddingBottom = GetLength(cssStyle.PaddingBottom),
-                PaddingLeft = GetLength(cssStyle.PaddingLeft),
-                PaddingRight = GetLength(cssStyle.PaddingRight),
+                PaddingTop = cssStyle.PaddingTop.GetLength(),
+                PaddingBottom = cssStyle.PaddingBottom.GetLength(),
+                PaddingLeft = cssStyle.PaddingLeft.GetLength(),
+                PaddingRight = cssStyle.PaddingRight.GetLength(),
 
                 Float = cssStyle.Float,
+
+                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor)
             };
+
+            // TODO! Update Pen
+            Canvas.Pen.Color = Color.Black;
+            Canvas.Pen.Style = TPenStyle.psSolid;
+            Canvas.Brush.Color = CssStyle.BackgroundColor;
         }
 
         public string GetFloat()
@@ -147,7 +162,7 @@ namespace Gui.Sharp.Dom
 
         #region Private Methods
 
-        private void ComputeChildBoundingBox(IElement element)
+        private void ComputeBoundingBox(IElement element)
         {
             var box = new RectangleF();
             box.Width = element.CssStyle.Width.Value;
@@ -208,13 +223,6 @@ namespace Gui.Sharp.Dom
             }
 
             //TODO! Take element's Position into consideration too.
-        }
-
-        private Length GetLength(string cssValue)
-        {
-            Length.TryParse(cssValue, out Length length);
-
-            return length;
         }
 
         #endregion

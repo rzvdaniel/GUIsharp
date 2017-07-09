@@ -17,7 +17,7 @@ namespace Gui.Sharp.OpenTK
             var html = htmlReader.Read(path);
 
             var game = GfxFactory.Create<IGfxGame>();
-            game.Create(800, 600, GameWindowFlags.Default, html);
+            game.Create(1200, 800, GameWindowFlags.Default, html);
             game.Run(30.0);
         }
     }

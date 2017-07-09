@@ -13,8 +13,8 @@ namespace Gui.Sharp.Gfx.Interfaces
         void DrawRect(float x, float y, float width, float height, int border);
         void DrawRect(RectangleF rect, int border);
 
-        void FillRect(int x, int y, int width, int height);
-        void FillRect(Rectangle rect);
+        void FillRect(float x, float y, float width, float height);
+        void FillRect(RectangleF rect);
 
         void MoveTo(float x, float y);
         void LineTo(float x, float y);
