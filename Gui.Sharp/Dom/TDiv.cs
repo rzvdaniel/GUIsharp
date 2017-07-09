@@ -1,7 +1,4 @@
-﻿using AngleSharp.Dom;
-using CssValues = AngleSharp.Css.Values;
-using Gui.Sharp.Gfx.Drawing;
-using OpenTK;
+﻿using CssValues = AngleSharp.Css.Values;
 
 namespace Gui.Sharp.Dom
 {
@@ -11,9 +8,7 @@ namespace Gui.Sharp.Dom
         {
             base.Paint();
 
-            Canvas.Pen.Color = Color.Black;
-            Canvas.Pen.Style = TPenStyle.psSolid;
-            Canvas.DrawRect(BoundingBox, 2);
+            Canvas.FillRect(BoundingBox);
         }
 
         protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)

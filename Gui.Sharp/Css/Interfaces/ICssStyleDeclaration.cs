@@ -120,7 +120,7 @@ namespace Gui.Sharp.Css.Interfaces
         /// Gets or sets the background-color value.
         /// </summary>
         [DomName("backgroundColor")]
-        string BackgroundColor { get; set; }
+        OpenTK.Color BackgroundColor { get; set; }
 
         /// <summary>
         /// Gets or sets the background-image value.
