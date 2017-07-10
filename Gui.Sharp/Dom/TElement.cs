@@ -19,7 +19,7 @@ namespace Gui.Sharp.Dom
 
         protected Color DefaultBackgroundColor { get; set; }
         protected Color DefaultBorderColor { get; set; }
-        protected Color DefaultColor { get; set; }
+        protected Color DefaultForegroundColor { get; set; }
 
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
@@ -56,7 +56,7 @@ namespace Gui.Sharp.Dom
 
             DefaultBackgroundColor = new Color(255, 255, 255, 255);
             DefaultBorderColor = new Color(0, 0, 0, 255);
-            DefaultColor = new Color(0, 0, 0, 255);
+            DefaultForegroundColor = new Color(0, 0, 0, 255);
         }
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
@@ -130,12 +130,15 @@ namespace Gui.Sharp.Dom
 
                 Float = cssStyle.Float,
 
-                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor)
+                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor),
+                Color = cssStyle.Color.TryGetColor(DefaultForegroundColor)
             };
 
-            // TODO! Update Pen
-            Canvas.Pen.Color = Color.Black;
+            Canvas.Pen.Color = CssStyle.Color;
+
+            // TODO! Update Pen style
             Canvas.Pen.Style = TPenStyle.psSolid;
+
             Canvas.Brush.Color = CssStyle.BackgroundColor;
         }
 

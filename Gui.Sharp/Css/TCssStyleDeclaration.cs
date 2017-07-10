@@ -394,7 +394,7 @@ namespace Gui.Sharp.Css
         /// <summary>
         /// Gets or sets the color value.
         /// </summary>
-        public string Color { get; set; }
+        public OpenTK.Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the color-interpolation-filters value.
