@@ -31,45 +31,31 @@ namespace Gui.Sharp.Core.Extensions
         {
             Color color = defaultColor;
 
-            try
+            if (!string.IsNullOrEmpty(rgbaColor))
             {
-                if (!string.IsNullOrEmpty(rgbaColor))
-                {
-                    var separators = new Char[] { CommaSeparator };
+                var separators = new Char[] { CommaSeparator };
 
-                    /// How the regex works: https://stackoverflow.com/a/378447/778863
-                    /// \(      # Escaped parenthesis, means "starts with a '(' character"
-                    /// (       # Parentheses in a regex mean "put (capture) the stuff in between into the Groups array" 
-                    /// [^)]    # Any character that is not a ')' character
-                    /// *       # Zero or more occurrences of the aforementioned "non ')' char"
-                    /// )       # Close the capturing group
-                    ///\)
+                /// How the regex works: https://stackoverflow.com/a/378447/778863
+                /// \(      # Escaped parenthesis, means "starts with a '(' character"
+                /// (       # Parentheses in a regex mean "put (capture) the stuff in between into the Groups array" 
+                /// [^)]    # Any character that is not a ')' character
+                /// *       # Zero or more occurrences of the aforementioned "non ')' char"
+                /// )       # Close the capturing group
+                ///\)
+                
+                var colorsOnly = Regex.Match(rgbaColor, @"\(([^)]*)\)").Groups[1].Value.Split(separators);
 
-                    var colorsOnly = Regex.Match(rgbaColor, @"\(([^)]*)\)").Groups[1].Value.Split(separators);
+                var red = int.Parse(colorsOnly[0]);
+                var green = int.Parse(colorsOnly[1]);
+                var blue = int.Parse(colorsOnly[2]);
 
-                    var colorsCount = colorsOnly.Count();
-                    if (colorsCount < 3 || colorsCount > 4)
-                    {
-                        return defaultColor;
-                    }
+                string alphaString = colorsOnly.Count() == 4 ? colorsOnly[3] : string.Empty;
 
-                    var red = int.Parse(colorsOnly[0]);
-                    var green = int.Parse(colorsOnly[1]);
-                    var blue = int.Parse(colorsOnly[2]);
+                var alpha = !string.IsNullOrEmpty(alphaString) ?
+                    (int)Math.Ceiling(float.Parse(alphaString) * 255) :
+                    FullAlpha;
 
-                    string alphaString = colorsOnly.Count() == 4 ? colorsOnly[3] : string.Empty;
-
-                    var alpha = !string.IsNullOrEmpty(alphaString) ?
-                        (int)Math.Ceiling(float.Parse(alphaString) * 255) :
-                        FullAlpha;
-
-                    color = new Color(red, green, blue, alpha);
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO! Should log the exception.
-                return defaultColor;
+                color = new Color(red, green, blue, alpha);
             }
 
             return color;
