@@ -3,9 +3,9 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gui.Sharp.Core.Extensions
+namespace Gui.Sharp.Css.Extensions
 {
-    public static class CssRgbaColorExtension
+    public static class RgbaColorExtension
     {
         private const int FullAlpha = 255;
         private const char CommaSeparator = ',';

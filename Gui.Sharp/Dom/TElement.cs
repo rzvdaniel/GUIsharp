@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
-using Gui.Sharp.Core.Extensions;
+using Gui.Sharp.Css.Extensions;
 using Gui.Sharp.Css;
 using Gui.Sharp.Css.Interfaces;
 using Gui.Sharp.Dom.Enums.Properties;
@@ -10,6 +10,7 @@ using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 using System.Collections.Generic;
+using Gui.Sharp.Dom.Extensions;
 
 namespace Gui.Sharp.Dom
 {
@@ -142,34 +143,17 @@ namespace Gui.Sharp.Dom
             Canvas.Brush.Color = CssStyle.BackgroundColor;
         }
 
-        public string GetFloat()
-        {
-            string attribute = string.Empty;
-
-            if (CssStyle.Float == Float.Inherit && Parent != null)
-            {
-                attribute = Parent.CssStyle.Float;
-            }
-            else
-            {
-                attribute = CssStyle.Float;
-            }
-
-            if (string.IsNullOrEmpty(attribute))
-                attribute = Float.None;
-
-            return attribute;
-        }
-
         #endregion
 
         #region Private Methods
 
         private void ComputeBoundingBox(IElement element)
         {
-            var box = new RectangleF();
-            box.Width = element.CssStyle.Width.Value;
-            box.Height = element.CssStyle.Height.Value;
+            var box = new RectangleF()
+            {
+                Width = element.CssStyle.Width.Value,
+                Height = element.CssStyle.Height.Value
+            };
 
             var childFloatAttribute = element.GetFloat();
 
