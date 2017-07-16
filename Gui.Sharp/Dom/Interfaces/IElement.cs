@@ -17,6 +17,5 @@ namespace Gui.Sharp.Dom.Interfaces
         void Paint();
         void Parse(AngleSharp.Dom.IElement htmlElement);
         void ComputeBoundingBox();
-        string GetFloat();
     }
 }

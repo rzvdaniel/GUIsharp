@@ -394,7 +394,7 @@ namespace Gui.Sharp.Css
         /// <summary>
         /// Gets or sets the color value.
         /// </summary>
-        public string Color { get; set; }
+        public OpenTK.Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the color-interpolation-filters value.
@@ -1138,12 +1138,7 @@ namespace Gui.Sharp.Css
 
         protected virtual void NotifyPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

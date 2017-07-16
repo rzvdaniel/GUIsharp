@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
-using Gui.Sharp.Core.Extensions;
+using Gui.Sharp.Css.Extensions;
 using Gui.Sharp.Css;
 using Gui.Sharp.Css.Interfaces;
 using Gui.Sharp.Dom.Enums.Properties;
@@ -10,6 +10,7 @@ using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
 using System.Collections.Generic;
+using Gui.Sharp.Dom.Extensions;
 
 namespace Gui.Sharp.Dom
 {
@@ -19,7 +20,7 @@ namespace Gui.Sharp.Dom
 
         protected Color DefaultBackgroundColor { get; set; }
         protected Color DefaultBorderColor { get; set; }
-        protected Color DefaultColor { get; set; }
+        protected Color DefaultForegroundColor { get; set; }
 
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
@@ -56,7 +57,7 @@ namespace Gui.Sharp.Dom
 
             DefaultBackgroundColor = new Color(255, 255, 255, 255);
             DefaultBorderColor = new Color(0, 0, 0, 255);
-            DefaultColor = new Color(0, 0, 0, 255);
+            DefaultForegroundColor = new Color(0, 0, 0, 255);
         }
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
@@ -130,32 +131,16 @@ namespace Gui.Sharp.Dom
 
                 Float = cssStyle.Float,
 
-                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor)
+                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor),
+                Color = cssStyle.Color.TryGetColor(DefaultForegroundColor)
             };
 
-            // TODO! Update Pen
-            Canvas.Pen.Color = Color.Black;
+            Canvas.Pen.Color = CssStyle.Color;
+
+            // TODO! Update Pen style
             Canvas.Pen.Style = TPenStyle.psSolid;
+
             Canvas.Brush.Color = CssStyle.BackgroundColor;
-        }
-
-        public string GetFloat()
-        {
-            string attribute = string.Empty;
-
-            if (CssStyle.Float == Float.Inherit && Parent != null)
-            {
-                attribute = Parent.CssStyle.Float;
-            }
-            else
-            {
-                attribute = CssStyle.Float;
-            }
-
-            if (string.IsNullOrEmpty(attribute))
-                attribute = Float.None;
-
-            return attribute;
         }
 
         #endregion
@@ -164,9 +149,11 @@ namespace Gui.Sharp.Dom
 
         private void ComputeBoundingBox(IElement element)
         {
-            var box = new RectangleF();
-            box.Width = element.CssStyle.Width.Value;
-            box.Height = element.CssStyle.Height.Value;
+            var box = new RectangleF()
+            {
+                Width = element.CssStyle.Width.Value,
+                Height = element.CssStyle.Height.Value
+            };
 
             var childFloatAttribute = element.GetFloat();
 
