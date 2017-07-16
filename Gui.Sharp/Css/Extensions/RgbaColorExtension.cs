@@ -57,11 +57,20 @@ namespace Gui.Sharp.Css.Extensions
                     var green = int.Parse(colorsOnly[1]);
                     var blue = int.Parse(colorsOnly[2]);
 
+                    int alpha;
                     string alphaString = colorsOnly.Count() == 4 ? colorsOnly[3] : string.Empty;
 
-                    var alpha = !string.IsNullOrEmpty(alphaString) ?
-                        (int)Math.Ceiling(float.Parse(alphaString) * 255) :
-                        FullAlpha;
+                    if (string.IsNullOrEmpty(alphaString))
+                    {
+                        alpha = FullAlpha;
+                    }
+                    else
+                    {
+                        var tempAlpha = float.Parse(alphaString);
+                        alpha = tempAlpha >= 0 && tempAlpha <= 1 ?
+                            (int)Math.Ceiling(tempAlpha * 255) :
+                            FullAlpha;
+                    }                     
 
                     color = new Color(red, green, blue, alpha);
                 }
