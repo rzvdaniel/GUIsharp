@@ -1,5 +1,5 @@
 ﻿using Gui.Sharp.Gfx.Interfaces;
-using OpenTK;
+using OpenTK.Graphics;
 
 namespace Gui.Sharp.Gfx
 {

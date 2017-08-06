@@ -1,20 +1,19 @@
 ﻿using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Interfaces;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace Gui.Sharp.Gfx.OpenGL
 {
     public class TGLCanvas : IGfxCanvas
     {
-        public PointF PenPos { get; set; }
+        public Point PenPos { get; set; }
         public TBrush Brush { get; set; }
         public TPen Pen { get; set; }
         public float TextAntialias { get; set; }
 
         public TGLCanvas()
         {
-            PenPos = new PointF();
+            PenPos = new Point();
             Brush = new TBrush();
             Pen = new TPen();
         }
@@ -31,7 +30,7 @@ namespace Gui.Sharp.Gfx.OpenGL
             }
         }
 
-        public void DrawRect(RectangleF rect, int border)
+        public void DrawRect(Rectangle rect, int border)
         {
             DrawRect(rect.X, rect.Y, rect.Width, rect.Height, border);
         }
@@ -84,14 +83,14 @@ namespace Gui.Sharp.Gfx.OpenGL
             }
         }
 
-        public void FillRect(RectangleF rect)
+        public void FillRect(Rectangle rect)
         {
             FillRect(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         public void MoveTo(float x, float y)
         {
-            PenPos = new PointF(x, y);
+            PenPos = new Point(x, y);
         }
 
         public void LineTo(float x, float y)

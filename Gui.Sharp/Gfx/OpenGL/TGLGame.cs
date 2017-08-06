@@ -1,5 +1,4 @@
-﻿using Gui.Sharp.Dom.Factories;
-using Gui.Sharp.Dom.Interfaces;
+﻿using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;

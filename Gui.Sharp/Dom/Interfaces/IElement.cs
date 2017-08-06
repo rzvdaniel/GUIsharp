@@ -11,7 +11,7 @@ namespace Gui.Sharp.Dom.Interfaces
         IList<IElement> Children { get; set; }
 
         IGfxCanvas Canvas { get; set; }
-        RectangleF BoundingBox { get; set; }
+        Rectangle BoundingBox { get; set; }
         ICssStyleDeclaration CssStyle { get; set; }
 
         void Paint();

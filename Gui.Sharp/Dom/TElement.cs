@@ -8,9 +8,9 @@ using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
-using OpenTK;
 using System.Collections.Generic;
 using Gui.Sharp.Dom.Extensions;
+using OpenTK.Graphics;
 
 namespace Gui.Sharp.Dom
 {
@@ -25,9 +25,9 @@ namespace Gui.Sharp.Dom
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
 
-        public RectangleF BoundingBox { get; set; }
-        public PointF LeftFloatPosition;
-        public PointF RightFloatPosition;
+        public Rectangle BoundingBox { get; set; }
+        public Point LeftFloatPosition;
+        public Point RightFloatPosition;
 
         #region Tree Navigation
 
@@ -82,8 +82,8 @@ namespace Gui.Sharp.Dom
 
         public virtual void ComputeBoundingBox()
         {
-            LeftFloatPosition = PointF.Zero;
-            RightFloatPosition = new PointF(Parent.BoundingBox.Width, 0.0f);
+            LeftFloatPosition = Point.Zero;
+            RightFloatPosition = new Point(Parent.BoundingBox.Width, 0);
         }
 
         public virtual void Paint()
@@ -149,7 +149,7 @@ namespace Gui.Sharp.Dom
 
         private void ComputeBoundingBox(IElement element)
         {
-            var box = new RectangleF()
+            var box = new Rectangle()
             {
                 Width = element.CssStyle.Width.Value,
                 Height = element.CssStyle.Height.Value

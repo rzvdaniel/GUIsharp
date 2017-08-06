@@ -104,7 +104,7 @@ namespace Gui.Sharp.Css
         /// <summary>
         /// Gets or sets the background-color value.
         /// </summary>
-        public OpenTK.Color BackgroundColor { get; set; }
+        public Color BackgroundColor { get; set; }
 
         /// <summary>
         /// Gets or sets the background-image value.
@@ -394,7 +394,7 @@ namespace Gui.Sharp.Css
         /// <summary>
         /// Gets or sets the color value.
         /// </summary>
-        public OpenTK.Color Color { get; set; }
+        public Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the color-interpolation-filters value.
