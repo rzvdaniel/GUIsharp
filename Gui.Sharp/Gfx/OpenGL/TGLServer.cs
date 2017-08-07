@@ -5,11 +5,6 @@ namespace Gui.Sharp.Gfx.OpenGL
 {
     public class TGLServer : TGfxServer
     {
-        public TGLServer(int width, int height, Color clearColor) :
-            base(width, height, clearColor)
-        {
-        }
-
         public override void Begin()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -38,6 +33,8 @@ namespace Gui.Sharp.Gfx.OpenGL
             GL.Disable(EnableCap.Fog);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Texture2D);
+            GL.UseProgram(0);
 
             /*
             GL.Enable(GL_CLIP_PLANE0);
@@ -60,6 +57,7 @@ namespace Gui.Sharp.Gfx.OpenGL
             GL.Disable(EnableCap.Fog);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Texture2D);
 
             /*
             glEnable(GL_CLIP_PLANE0);
@@ -81,6 +79,8 @@ namespace Gui.Sharp.Gfx.OpenGL
 
         public override void End()
         {
+            GL.Enable(EnableCap.Texture2D);
+
             /*
             glDisable(GL_CLIP_PLANE0);
 	        glDisable(GL_CLIP_PLANE1);
@@ -102,6 +102,8 @@ namespace Gui.Sharp.Gfx.OpenGL
             glDisable(GL_CLIP_PLANE2);
             glDisable(GL_CLIP_PLANE3);
             */
+
+            GL.Enable(EnableCap.Texture2D);
         }
     }
 }

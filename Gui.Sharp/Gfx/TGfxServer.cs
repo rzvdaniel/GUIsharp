@@ -1,5 +1,4 @@
 ﻿using Gui.Sharp.Gfx.Interfaces;
-using OpenTK.Graphics;
 
 namespace Gui.Sharp.Gfx
 {
@@ -9,7 +8,7 @@ namespace Gui.Sharp.Gfx
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public TGfxServer(int width, int height, Color clearColor)
+        public void Initialize(int width, int height, Color clearColor)
         {
             Width = width;
             Height = height;

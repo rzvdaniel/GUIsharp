@@ -1,8 +1,4 @@
-﻿using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Services.Default;
-using OpenTK;
-using CssValues = AngleSharp.Css.Values;
+﻿using CssValues = AngleSharp.Css.Values;
 
 namespace Gui.Sharp.Dom
 {

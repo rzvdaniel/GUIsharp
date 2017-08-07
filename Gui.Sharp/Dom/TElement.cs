@@ -10,7 +10,6 @@ using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using System.Collections.Generic;
 using Gui.Sharp.Dom.Extensions;
-using OpenTK.Graphics;
 
 namespace Gui.Sharp.Dom
 {
@@ -26,6 +25,8 @@ namespace Gui.Sharp.Dom
         public ICssStyleDeclaration CssStyle { get; set; }
 
         public Rectangle BoundingBox { get; set; }
+        public string TextContent { get; set; }
+
         public Point LeftFloatPosition;
         public Point RightFloatPosition;
 
@@ -62,6 +63,8 @@ namespace Gui.Sharp.Dom
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
         {
+            TextContent = htmlElement.TextContent;
+
             InitStyle(htmlElement.ComputeCurrentStyle());
 
             ComputeBoundingBox();
@@ -132,15 +135,15 @@ namespace Gui.Sharp.Dom
                 Float = cssStyle.Float,
 
                 BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor),
-                Color = cssStyle.Color.TryGetColor(DefaultForegroundColor)
+                Color = cssStyle.Color.TryGetColor(DefaultForegroundColor),
+
+                FontFamily = cssStyle.FontFamily
             };
 
             Canvas.Pen.Color = CssStyle.Color;
-
-            // TODO! Update Pen style
-            Canvas.Pen.Style = TPenStyle.psSolid;
-
+            Canvas.Pen.Style = TPenStyle.psSolid; // TODO! Update Pen style
             Canvas.Brush.Color = CssStyle.BackgroundColor;
+            Canvas.Font.Name = CssStyle.FontFamily;
         }
 
         #endregion

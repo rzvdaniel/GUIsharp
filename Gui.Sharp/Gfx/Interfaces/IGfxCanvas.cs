@@ -1,4 +1,5 @@
-﻿using Gui.Sharp.Gfx.Drawing;
+﻿using Gui.Sharp.Dom;
+using Gui.Sharp.Gfx.Drawing;
 using OpenTK;
 
 namespace Gui.Sharp.Gfx.Interfaces
@@ -8,7 +9,7 @@ namespace Gui.Sharp.Gfx.Interfaces
         Point PenPos { get; set; }
         TBrush Brush { get; set; }
         TPen Pen { get; set; }
-        float TextAntialias { get; set; }
+        TFont Font { get; set; }
 
         void DrawRect(float x, float y, float width, float height, int border);
         void DrawRect(Rectangle rect, int border);
@@ -18,5 +19,7 @@ namespace Gui.Sharp.Gfx.Interfaces
 
         void MoveTo(float x, float y);
         void LineTo(float x, float y);
+
+        void Print(string text, Point position);
     }
 }

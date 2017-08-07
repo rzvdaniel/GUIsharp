@@ -1,7 +1,7 @@
 ﻿using Gui.Sharp.Dom.Factories;
 using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Interfaces;
-using OpenTK;
+using Gui.Sharp.Gfx.Servers;
 
 namespace Gui.Sharp.Dom
 {
@@ -19,6 +19,8 @@ namespace Gui.Sharp.Dom
             Width = width;
             Height = height;
 
+            TFontServer.Instance.Initialize(width, height);
+
             Document = DomFactory.Create<IDocument>();
             Document.Parse(htmlDocument);
 
@@ -32,7 +34,7 @@ namespace Gui.Sharp.Dom
 
             //Canvas = new TCanvas(this);
 
-            //SetBounds(Rect.left, Rect.top, Rect.right, Rect.bottom);
+            //SetBounds(Rect.left, Rect.top, Rect.right, Rect.bottom);#
         }
 
         public void Paint()

@@ -1,5 +1,7 @@
-﻿using Gui.Sharp.Gfx.Drawing;
+﻿using Gui.Sharp.Dom;
+using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Interfaces;
+using Gui.Sharp.Gfx.Servers;
 using OpenTK.Graphics.OpenGL;
 
 namespace Gui.Sharp.Gfx.OpenGL
@@ -9,13 +11,14 @@ namespace Gui.Sharp.Gfx.OpenGL
         public Point PenPos { get; set; }
         public TBrush Brush { get; set; }
         public TPen Pen { get; set; }
-        public float TextAntialias { get; set; }
+        public TFont Font { get; set; }
 
         public TGLCanvas()
         {
             PenPos = new Point();
             Brush = new TBrush();
             Pen = new TPen();
+            Font = new TFont();
         }
 
         public void DrawRect(float x, float y, float width, float height, int border)
@@ -152,6 +155,11 @@ namespace Gui.Sharp.Gfx.OpenGL
                 GL.Disable(EnableCap.LineStipple);
 
             MoveTo(x, y);
+        }
+
+        public void Print(string text, Point position)
+        {
+            TFontServer.Instance.RenderText(text, Font, position);
         }
     }
 }

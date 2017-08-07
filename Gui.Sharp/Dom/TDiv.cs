@@ -9,6 +9,8 @@ namespace Gui.Sharp.Dom
             base.Paint();
 
             Canvas.FillRect(BoundingBox);
+
+            Canvas.Print(TextContent, new Point(BoundingBox.Left, BoundingBox.Top));
         }
 
         protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
