@@ -1,10 +1,8 @@
-﻿using OpenTK;
-using OpenTK.Graphics;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gui.Sharp.Css.Extensions
+namespace Gui.Sharp.HtmlCss.Extensions
 {
     public static class RgbaColorExtension
     {

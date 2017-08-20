@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Css.Values;
 
-namespace Gui.Sharp.Css.Extensions
+namespace Gui.Sharp.HtmlCss.Extensions
 {
     public static class LengthExtension
     {

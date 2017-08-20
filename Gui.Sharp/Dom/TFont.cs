@@ -166,6 +166,7 @@ namespace Gui.Sharp.Dom
             LineSpacing = 1.0f;
             DropShadowOffset = new Vector2(0.16f, 0.16f);
             DropShadowColour = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+            DropShadowActive = false;
         }
     }
 }

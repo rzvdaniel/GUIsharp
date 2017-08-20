@@ -1,4 +1,4 @@
-﻿using Gui.Sharp.Css.Extensions;
+﻿using Gui.Sharp.HtmlCss.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Gui.Sharp.Tests.Css.Extensions

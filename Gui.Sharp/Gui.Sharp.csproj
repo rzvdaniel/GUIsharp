@@ -63,10 +63,11 @@
     <Compile Include="Core\Math\Rectangle.cs" />
     <Compile Include="Core\Math\Size.cs" />
     <Compile Include="Core\Math\Point.cs" />
-    <Compile Include="Css\Extensions\LengthExtension.cs" />
-    <Compile Include="Css\Extensions\RgbaColorExtension.cs" />
-    <Compile Include="Css\Interfaces\ICssStyleDeclaration.cs" />
-    <Compile Include="Css\TCssStyleDeclaration.cs" />
+    <Compile Include="HtmlCss\Extensions\LengthExtension.cs" />
+    <Compile Include="HtmlCss\Extensions\RgbaColorExtension.cs" />
+    <Compile Include="HtmlCss\Interfaces\ICssStyleDeclaration.cs" />
+    <Compile Include="HtmlCss\Interfaces\IHtmlProperty.cs" />
+    <Compile Include="HtmlCss\TCssStyleDeclaration.cs" />
     <Compile Include="Dom\Enums\Properties\Float.cs" />
     <Compile Include="Dom\Enums\Properties\Position.cs" />
     <Compile Include="Dom\Extensions\FloatPropertyExtension.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Gfx\OpenGL\TGLScreenIndependent.cs" />
     <Compile Include="Gfx\OpenGL\TGLServer.cs" />
     <Compile Include="Gfx\TGfxServer.cs" />
+    <Compile Include="HtmlCss\THtmlProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +108,7 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

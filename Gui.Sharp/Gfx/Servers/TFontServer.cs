@@ -12,20 +12,32 @@ namespace Gui.Sharp.Gfx.Servers
 {
     public class TFontServer : IFontServer
     {
-        private float DefaultFontSize = 12.0f;
+        #region Constants
+
+        private float DefaultFontSize = 18.0f;
         private const string TimesNewRoman = "Times New Roman";
         private const string Arial = "Arial";
         private const string Consolas = "Consolas";
+
+        #endregion
+
+        #region Private Members
 
         private QFontDrawing drawing;
         private Matrix4 projectionMatrix;
         private IEnumerable<string> defaultFontNames;
 
+        #endregion
+
+        #region Public Methods
+
         public float ScreenWidth { get; private set; }
         public float ScreenHeight { get; private set; }
         public IDictionary<string, QFont> Fonts { get; private set; }
         public IDictionary<string, QFont> DefaultFonts { get; private set; }
-        public QFontBuilderConfiguration BuilderConfiguration { get; private set; }
+        public QFontBuilderConfiguration BuilderConfiguration { get; private set; } 
+
+        #endregion
 
         #region Singleton
 
@@ -41,7 +53,12 @@ namespace Gui.Sharp.Gfx.Servers
 
             Fonts = new Dictionary<string, QFont>();
             DefaultFonts = new Dictionary<string, QFont>();
-            BuilderConfiguration = new QFontBuilderConfiguration();
+            BuilderConfiguration = new QFontBuilderConfiguration(true)
+            {
+                ShadowConfig = { BlurRadius = 1, BlurPasses = 1, Type = ShadowType.Blurred },
+                TextGenerationRenderHint = TextGenerationRenderHint.ClearTypeGridFit,
+                Characters = CharacterSet.General | CharacterSet.Japanese | CharacterSet.Thai | CharacterSet.Cyrillic
+            };
         }
 
         public void Initialize(int screenWidth, int screenHeight)
@@ -59,7 +76,8 @@ namespace Gui.Sharp.Gfx.Servers
                 DefaultFonts.Add
                 (
                     fontFamily.Name, 
-                    new QFont(fontFamily.Name, DefaultFontSize, BuilderConfiguration)
+                    new QFont(fontFamily.Name, DefaultFontSize, BuilderConfiguration, 
+                    System.Drawing.FontStyle.Regular)
                 );
             }
         }

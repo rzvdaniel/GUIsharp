@@ -1,15 +1,14 @@
 ﻿using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
-using Gui.Sharp.Css.Extensions;
-using Gui.Sharp.Css;
-using Gui.Sharp.Css.Interfaces;
+using Gui.Sharp.HtmlCss;
+using Gui.Sharp.HtmlCss.Extensions;
+using Gui.Sharp.HtmlCss.Interfaces;
 using Gui.Sharp.Dom.Enums.Properties;
+using Gui.Sharp.Dom.Extensions;
 using Gui.Sharp.Dom.Interfaces;
-using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using System.Collections.Generic;
-using Gui.Sharp.Dom.Extensions;
 
 namespace Gui.Sharp.Dom
 {
@@ -23,9 +22,10 @@ namespace Gui.Sharp.Dom
 
         public IGfxCanvas Canvas { get; set; }
         public ICssStyleDeclaration CssStyle { get; set; }
+        public IHtmlProperty HtmlProperty { get; set; }
 
+        public string Text { get; set; }
         public Rectangle BoundingBox { get; set; }
-        public string TextContent { get; set; }
 
         public Point LeftFloatPosition;
         public Point RightFloatPosition;
@@ -41,30 +41,28 @@ namespace Gui.Sharp.Dom
 
         #region Private Properties
 
-        private IList<IElement> _normalFlowChildren;
-        private IList<IElement> _floatFlowChildren;
-        private IList<IElement> _absoluteFlowChildren;
+        private IList<IElement> normalFlowChildren;
+        private IList<IElement> floatFlowChildren;
+        private IList<IElement> absoluteFlowChildren;
 
         #endregion
 
         public TElement()
         {
-            _normalFlowChildren = new List<IElement>();
-            _floatFlowChildren = new List<IElement>();
-            _absoluteFlowChildren = new List<IElement>();
-
-            Children = new List<IElement>();
-            Canvas = GfxFactory.Create<IGfxCanvas>();
+            normalFlowChildren = new List<IElement>();
+            floatFlowChildren = new List<IElement>();
+            absoluteFlowChildren = new List<IElement>();
 
             DefaultBackgroundColor = new Color(255, 255, 255, 255);
             DefaultBorderColor = new Color(0, 0, 0, 255);
             DefaultForegroundColor = new Color(0, 0, 0, 255);
+
+            Children = new List<IElement>();
+            Canvas = GfxFactory.Create<IGfxCanvas>();
         }
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
         {
-            TextContent = htmlElement.TextContent;
-
             InitStyle(htmlElement.ComputeCurrentStyle());
 
             ComputeBoundingBox();
@@ -89,61 +87,98 @@ namespace Gui.Sharp.Dom
             RightFloatPosition = new Point(Parent.BoundingBox.Width, 0);
         }
 
-        public virtual void Paint()
+        /// <summary>
+        /// Renders element's children
+        /// </summary>
+        public virtual void PaintChildren()
         {
-            foreach (var child in _normalFlowChildren)
+            foreach (var child in normalFlowChildren)
             {
                 child.Paint();
             }
 
-            foreach (var child in _floatFlowChildren)
+            foreach (var child in floatFlowChildren)
             {
                 child.Paint();
             }
 
-            foreach (var child in _absoluteFlowChildren)
+            foreach (var child in absoluteFlowChildren)
             {
                 child.Paint();
             }
         }
 
+        /// <summary>
+        /// Renders element's body
+        /// </summary>
+        /// <remarks>
+        /// Elements are responsible to render their own body.
+        /// There is no default body painting.
+        /// </remarks>
+        public virtual void PaintBody() { }
+
+        /// <summary>
+        /// Renders element's text
+        /// </summary>
+        public virtual void PaintText()
+        {
+            if (!string.IsNullOrEmpty(Text))
+            {
+                Canvas.Print(Text, new Point(BoundingBox.Left, BoundingBox.Top));
+            }
+        }
+
+        /// <summary>
+        /// Paints element
+        /// </summary>
+        public void Paint()
+        {
+            PaintChildren();
+
+            PaintBody();
+
+            PaintText();
+        }
+
         #region Protected Methods
 
-        protected virtual void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
+        protected virtual void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration style)
         {
             CssStyle = new TCssStyleDeclaration()
             {
-                Width = cssStyle.Width.GetLength(),
-                Height = cssStyle.Height.GetLength(),
+                Width = style.Width.GetLength(),
+                Height = style.Height.GetLength(),
 
-                MaxWidth = cssStyle.MaxWidth.GetLength(),
-                MaxHeight = cssStyle.MaxHeight.GetLength(),
+                MaxWidth = style.MaxWidth.GetLength(),
+                MaxHeight = style.MaxHeight.GetLength(),
 
-                MinWidth = cssStyle.MinWidth.GetLength(),
-                MinHeight = cssStyle.MinHeight.GetLength(),
+                MinWidth = style.MinWidth.GetLength(),
+                MinHeight = style.MinHeight.GetLength(),
 
-                MarginTop = cssStyle.MarginTop.GetLength(),
-                MarginBottom = cssStyle.MarginBottom.GetLength(),
-                MarginLeft = cssStyle.MarginLeft.GetLength(),
-                MarginRight = cssStyle.MarginRight.GetLength(),
+                MarginTop = style.MarginTop.GetLength(),
+                MarginBottom = style.MarginBottom.GetLength(),
+                MarginLeft = style.MarginLeft.GetLength(),
+                MarginRight = style.MarginRight.GetLength(),
 
-                PaddingTop = cssStyle.PaddingTop.GetLength(),
-                PaddingBottom = cssStyle.PaddingBottom.GetLength(),
-                PaddingLeft = cssStyle.PaddingLeft.GetLength(),
-                PaddingRight = cssStyle.PaddingRight.GetLength(),
+                PaddingTop = style.PaddingTop.GetLength(),
+                PaddingBottom = style.PaddingBottom.GetLength(),
+                PaddingLeft = style.PaddingLeft.GetLength(),
+                PaddingRight = style.PaddingRight.GetLength(),
 
-                Float = cssStyle.Float,
+                Float = style.Float,
 
-                BackgroundColor = cssStyle.BackgroundColor.TryGetColor(DefaultBackgroundColor),
-                Color = cssStyle.Color.TryGetColor(DefaultForegroundColor),
+                BackgroundColor = style.BackgroundColor.TryGetColor(DefaultBackgroundColor),
+                Color = style.Color.TryGetColor(DefaultForegroundColor),
 
-                FontFamily = cssStyle.FontFamily
+                FontFamily = style.FontFamily
             };
 
-            Canvas.Pen.Color = CssStyle.Color;
-            Canvas.Pen.Style = TPenStyle.psSolid; // TODO! Update Pen style
-            Canvas.Brush.Color = CssStyle.BackgroundColor;
-            Canvas.Font.Name = CssStyle.FontFamily;
+            Canvas.Initialize(CssStyle);
+        }
+
+        protected virtual void InitContent(AngleSharp.Dom.IElement htmlElement)
+        {
+            Text = htmlElement.Text();
         }
 
         #endregion
@@ -204,11 +239,11 @@ namespace Gui.Sharp.Dom
             switch (element.GetFloat())
             {
                 case Float.None:
-                    _normalFlowChildren.Add(element);
+                    normalFlowChildren.Add(element);
                     break;
                 case Float.Left:
                 case Float.Right:
-                    _floatFlowChildren.Add(element);
+                    floatFlowChildren.Add(element);
                     break;
             }
 

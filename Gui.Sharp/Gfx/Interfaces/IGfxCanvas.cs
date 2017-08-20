@@ -1,11 +1,13 @@
 ﻿using Gui.Sharp.Dom;
 using Gui.Sharp.Gfx.Drawing;
-using OpenTK;
+using Gui.Sharp.HtmlCss.Interfaces;
 
 namespace Gui.Sharp.Gfx.Interfaces
 {
     public interface IGfxCanvas
     {
+        void Initialize(ICssStyleDeclaration style);
+
         Point PenPos { get; set; }
         TBrush Brush { get; set; }
         TPen Pen { get; set; }

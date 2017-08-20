@@ -1,4 +1,5 @@
-﻿using Gui.Sharp.Dom;
+﻿using Gui.Sharp.HtmlCss.Interfaces;
+using Gui.Sharp.Dom;
 using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Interfaces;
 using Gui.Sharp.Gfx.Servers;
@@ -19,6 +20,14 @@ namespace Gui.Sharp.Gfx.OpenGL
             Brush = new TBrush();
             Pen = new TPen();
             Font = new TFont();
+        }
+
+        public void Initialize(ICssStyleDeclaration style)
+        {
+            Pen.Color = style.Color;
+            Pen.Style = TPenStyle.psSolid; // TODO! Update Pen style
+            Brush.Color = style.BackgroundColor;
+            Font.Name = style.FontFamily;
         }
 
         public void DrawRect(float x, float y, float width, float height, int border)
