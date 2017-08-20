@@ -84,6 +84,11 @@ namespace Gui.Sharp.Gfx.Servers
 
         public void RenderText(string text, TFont font, Point position)
         {
+            RenderText(text, font, position.X, position.Y);
+        }
+
+        public void RenderText(string text, TFont font, float x, float y)
+        {
             drawing.ProjectionMatrix = projectionMatrix;
             drawing.DrawingPrimitives.Clear();
 
@@ -95,7 +100,7 @@ namespace Gui.Sharp.Gfx.Servers
             (
                 qfont,
                 text,
-                new Vector3(position.X, ScreenHeight - position.Y, 0),
+                new Vector3(x, ScreenHeight - y, 0),
                 QFontAlignment.Left,
                 font.RenderOptions
             );

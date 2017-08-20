@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gui.Sharp.HtmlCss.Extensions
+namespace Gui.Sharp.Dom.Extensions
 {
     public static class RgbaColorExtension
     {

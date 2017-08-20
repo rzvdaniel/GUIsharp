@@ -1,6 +1,6 @@
 ﻿using Gui.Sharp.Gfx.Interfaces;
 
-namespace Gui.Sharp.Gfx
+namespace Gui.Sharp.Gfx.Servers
 {
     public abstract class TGfxServer : IGfxServer
     {

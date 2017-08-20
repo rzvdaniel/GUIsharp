@@ -1,4 +1,4 @@
-﻿using Gui.Sharp.HtmlCss.Interfaces;
+﻿using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Dom;
 using Gui.Sharp.Gfx.Drawing;
 using Gui.Sharp.Gfx.Interfaces;
@@ -22,7 +22,7 @@ namespace Gui.Sharp.Gfx.OpenGL
             Font = new TFont();
         }
 
-        public void Initialize(ICssStyleDeclaration style)
+        public void Initialize(IElementCss style)
         {
             Pen.Color = style.Color;
             Pen.Style = TPenStyle.psSolid; // TODO! Update Pen style
@@ -169,6 +169,11 @@ namespace Gui.Sharp.Gfx.OpenGL
         public void Print(string text, Point position)
         {
             TFontServer.Instance.RenderText(text, Font, position);
+        }
+
+        public void Print(string text, float x, float y)
+        {
+            TFontServer.Instance.RenderText(text, Font, x, y);
         }
     }
 }

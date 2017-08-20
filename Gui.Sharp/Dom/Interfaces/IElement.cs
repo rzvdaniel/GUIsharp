@@ -1,5 +1,5 @@
 ﻿using Gui.Sharp.Gfx.Interfaces;
-using Gui.Sharp.HtmlCss.Interfaces;
+using Gui.Sharp.Dom.Interfaces;
 using System.Collections.Generic;
 
 namespace Gui.Sharp.Dom.Interfaces
@@ -12,8 +12,8 @@ namespace Gui.Sharp.Dom.Interfaces
         IList<IElement> Children { get; set; }
 
         IGfxCanvas Canvas { get; set; }
-        ICssStyleDeclaration CssStyle { get; set; }
-        IHtmlProperty HtmlProperty { get; set; }
+        IElementCss Css { get; set; }
+        IElementHtml Html { get; set; }
 
         Rectangle BoundingBox { get; set; }
 

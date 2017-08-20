@@ -9,13 +9,13 @@ namespace Gui.Sharp.Dom
             Canvas.FillRect(BoundingBox);
         }
 
-        protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
+        protected override void InitCss(AngleSharp.Dom.IElement htmlElement)
         {
-            base.InitStyle(cssStyle);
+            base.InitCss(htmlElement);
 
-            if (CssStyle.Width.Value == 0.0f)
+            if (Css.Width.Value == 0.0f)
             {
-                CssStyle.Width = new CssValues.Length(TScreen.Width, CssValues.Length.Unit.None);
+                Css.Width = new CssValues.Length(TScreen.Width, CssValues.Length.Unit.None);
             }
         }
     }

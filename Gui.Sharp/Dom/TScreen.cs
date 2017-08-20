@@ -21,7 +21,8 @@ namespace Gui.Sharp.Dom
 
             TFontServer.Instance.Initialize(width, height);
 
-            Document = DomFactory.Create<IDocument>();
+            var domFactory = new TDomFactory();
+            Document = domFactory.Create<IDocument>();
             Document.Parse(htmlDocument);
 
             // Create the canvas. Need a canvas for the screen. For example,

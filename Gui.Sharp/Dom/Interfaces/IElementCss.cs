@@ -1,10 +1,10 @@
 ﻿using AngleSharp.Attributes;
 using AngleSharp.Css.Values;
 
-namespace Gui.Sharp.HtmlCss.Interfaces
+namespace Gui.Sharp.Dom.Interfaces
 {
-    [DomName("CSSStyleDeclaration")]
-    public interface ICssStyleDeclaration
+    [DomName("ElementCss")]
+    public interface IElementCss
     {
         #region CSS Property Values
 

@@ -3,19 +3,19 @@ using Gui.Sharp.Dom.Interfaces;
 
 namespace Gui.Sharp.Dom.Extensions
 {
-    public static class FloatPropertyExtension
+    public static class HtmlFloatExtension
     {
         public static string GetFloat(this IElement element)
         {
             string attribute = string.Empty;
 
-            if (element.CssStyle.Float == Float.Inherit && element.Parent != null)
+            if (element.Css.Float == Float.Inherit && element.Parent != null)
             {
-                attribute = element.Parent.CssStyle.Float;
+                attribute = element.Parent.Css.Float;
             }
             else
             {
-                attribute = element.CssStyle.Float;
+                attribute = element.Css.Float;
             }
 
             if (string.IsNullOrEmpty(attribute))

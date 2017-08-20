@@ -1,4 +1,4 @@
-﻿using OpenTK;
+﻿using Gui.Sharp.Gfx.Servers;
 using OpenTK.Graphics.OpenGL;
 
 namespace Gui.Sharp.Gfx.OpenGL

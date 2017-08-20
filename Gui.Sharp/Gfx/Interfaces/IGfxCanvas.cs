@@ -1,12 +1,12 @@
 ﻿using Gui.Sharp.Dom;
 using Gui.Sharp.Gfx.Drawing;
-using Gui.Sharp.HtmlCss.Interfaces;
+using Gui.Sharp.Dom.Interfaces;
 
 namespace Gui.Sharp.Gfx.Interfaces
 {
     public interface IGfxCanvas
     {
-        void Initialize(ICssStyleDeclaration style);
+        void Initialize(IElementCss style);
 
         Point PenPos { get; set; }
         TBrush Brush { get; set; }
@@ -23,5 +23,6 @@ namespace Gui.Sharp.Gfx.Interfaces
         void LineTo(float x, float y);
 
         void Print(string text, Point position);
+        void Print(string text, float x, float y);
     }
 }

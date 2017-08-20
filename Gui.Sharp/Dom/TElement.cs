@@ -1,11 +1,9 @@
 ﻿using AngleSharp.Extensions;
 using AngleSharp.Services.Default;
-using Gui.Sharp.HtmlCss;
-using Gui.Sharp.HtmlCss.Extensions;
-using Gui.Sharp.HtmlCss.Interfaces;
-using Gui.Sharp.Dom.Enums.Properties;
+using Gui.Sharp.Dom;
 using Gui.Sharp.Dom.Extensions;
 using Gui.Sharp.Dom.Interfaces;
+using Gui.Sharp.Dom.Enums.Properties;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using System.Collections.Generic;
@@ -21,10 +19,9 @@ namespace Gui.Sharp.Dom
         protected Color DefaultForegroundColor { get; set; }
 
         public IGfxCanvas Canvas { get; set; }
-        public ICssStyleDeclaration CssStyle { get; set; }
-        public IHtmlProperty HtmlProperty { get; set; }
+        public IElementCss Css { get; set; }
+        public IElementHtml Html { get; set; }
 
-        public string Text { get; set; }
         public Rectangle BoundingBox { get; set; }
 
         public Point LeftFloatPosition;
@@ -63,7 +60,8 @@ namespace Gui.Sharp.Dom
 
         public void Parse(AngleSharp.Dom.IElement htmlElement)
         {
-            InitStyle(htmlElement.ComputeCurrentStyle());
+            InitHtml(htmlElement);
+            InitCss(htmlElement);
 
             ComputeBoundingBox();
 
@@ -115,17 +113,14 @@ namespace Gui.Sharp.Dom
         /// Elements are responsible to render their own body.
         /// There is no default body painting.
         /// </remarks>
-        public virtual void PaintBody() { }
+        public virtual void PaintBody() {}
 
         /// <summary>
         /// Renders element's text
         /// </summary>
         public virtual void PaintText()
         {
-            if (!string.IsNullOrEmpty(Text))
-            {
-                Canvas.Print(Text, new Point(BoundingBox.Left, BoundingBox.Top));
-            }
+            Canvas.Print(Html.Text, BoundingBox.Left, BoundingBox.Top);
         }
 
         /// <summary>
@@ -142,9 +137,11 @@ namespace Gui.Sharp.Dom
 
         #region Protected Methods
 
-        protected virtual void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration style)
+        protected virtual void InitCss(AngleSharp.Dom.IElement htmlElement)
         {
-            CssStyle = new TCssStyleDeclaration()
+            var style = htmlElement.ComputeCurrentStyle();
+
+            Css = new TElementCss()
             {
                 Width = style.Width.GetLength(),
                 Height = style.Height.GetLength(),
@@ -173,12 +170,15 @@ namespace Gui.Sharp.Dom
                 FontFamily = style.FontFamily
             };
 
-            Canvas.Initialize(CssStyle);
+            Canvas.Initialize(Css);
         }
 
-        protected virtual void InitContent(AngleSharp.Dom.IElement htmlElement)
+        protected virtual void InitHtml(AngleSharp.Dom.IElement htmlElement)
         {
-            Text = htmlElement.Text();
+            Html = new TElementHtml
+            {
+                Text = htmlElement.Text()
+            };
         }
 
         #endregion
@@ -189,8 +189,8 @@ namespace Gui.Sharp.Dom
         {
             var box = new Rectangle()
             {
-                Width = element.CssStyle.Width.Value,
-                Height = element.CssStyle.Height.Value
+                Width = element.Css.Width.Value,
+                Height = element.Css.Height.Value
             };
 
             var childFloatAttribute = element.GetFloat();

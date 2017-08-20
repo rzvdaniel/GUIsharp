@@ -1,13 +1,13 @@
 ﻿using AngleSharp.Css.Values;
-using Gui.Sharp.HtmlCss.Interfaces;
+using Gui.Sharp.Dom.Interfaces;
 using System.ComponentModel;
 
-namespace Gui.Sharp.HtmlCss
+namespace Gui.Sharp.Dom
 {
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    public class TCssStyleDeclaration : ICssStyleDeclaration, INotifyPropertyChanged
+    public class TElementCss : IElementCss, INotifyPropertyChanged
     {
         #region CSS Properties
 

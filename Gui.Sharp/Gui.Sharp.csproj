@@ -63,16 +63,17 @@
     <Compile Include="Core\Math\Rectangle.cs" />
     <Compile Include="Core\Math\Size.cs" />
     <Compile Include="Core\Math\Point.cs" />
-    <Compile Include="HtmlCss\Extensions\LengthExtension.cs" />
-    <Compile Include="HtmlCss\Extensions\RgbaColorExtension.cs" />
-    <Compile Include="HtmlCss\Interfaces\ICssStyleDeclaration.cs" />
-    <Compile Include="HtmlCss\Interfaces\IHtmlProperty.cs" />
-    <Compile Include="HtmlCss\TCssStyleDeclaration.cs" />
+    <Compile Include="Dom\Factories\IDomFactory.cs" />
+    <Compile Include="Dom\Extensions\LengthExtension.cs" />
+    <Compile Include="Dom\Extensions\RgbaColorExtension.cs" />
+    <Compile Include="Dom\Interfaces\IElementCss.cs" />
+    <Compile Include="Dom\Interfaces\IElementHtml.cs" />
+    <Compile Include="Dom\TElementCss.cs" />
     <Compile Include="Dom\Enums\Properties\Float.cs" />
     <Compile Include="Dom\Enums\Properties\Position.cs" />
-    <Compile Include="Dom\Extensions\FloatPropertyExtension.cs" />
-    <Compile Include="Dom\Factories\DomFactory.cs" />
-    <Compile Include="Dom\Factories\ITElementFactory.cs" />
+    <Compile Include="Dom\Extensions\HtmlFloatExtension.cs" />
+    <Compile Include="Dom\Factories\TDomFactory.cs" />
+    <Compile Include="Dom\Factories\IElementFactory.cs" />
     <Compile Include="Dom\Factories\TElementFactory.cs" />
     <Compile Include="Dom\Interfaces\IDocument.cs" />
     <Compile Include="Dom\Interfaces\IElement.cs" />
@@ -99,8 +100,8 @@
     <Compile Include="Gfx\OpenGL\TGLGame.cs" />
     <Compile Include="Gfx\OpenGL\TGLScreenIndependent.cs" />
     <Compile Include="Gfx\OpenGL\TGLServer.cs" />
-    <Compile Include="Gfx\TGfxServer.cs" />
-    <Compile Include="HtmlCss\THtmlProperty.cs" />
+    <Compile Include="Gfx\Servers\TGfxServer.cs" />
+    <Compile Include="Dom\TElementHtml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

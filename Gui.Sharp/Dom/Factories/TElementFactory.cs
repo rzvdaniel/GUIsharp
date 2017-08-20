@@ -9,7 +9,7 @@ namespace AngleSharp.Services.Default
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
     /// </summary>
-    public class TElementFactory : ITElementFactory<Dom.IElement>
+    public class TElementFactory : IElementFactory<Dom.IElement>
     {
         private delegate IElement Creator();
 
@@ -24,7 +24,6 @@ namespace AngleSharp.Services.Default
         public IElement Create(Dom.IElement htmlElement)
         {
             var type = htmlElement.GetType();
-
             var creator = default(Creator);
 
             if (creators.TryGetValue(type.Name, out creator))
