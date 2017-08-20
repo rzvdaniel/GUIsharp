@@ -1,5 +1,4 @@
-﻿using Gui.Sharp.Dom.Factories;
-using Gui.Sharp.Dom.Interfaces;
+﻿using Gui.Sharp.Dom.Interfaces;
 using Gui.Sharp.Gfx.Factories;
 using Gui.Sharp.Gfx.Interfaces;
 using OpenTK;
@@ -22,13 +21,13 @@ namespace Gui.Sharp.Gfx.OpenGL
 
         public void Create(int width, int height, GameWindowFlags windowFlags, string htmlDocument)
         {
-            Screen = GfxFactory.Create<IScreen>();
-            Screen.Create(width, height, Color.White, htmlDocument);
-
-            Window = new GameWindow(width, height, GraphicsMode.Default, "Gui Sharp Tests", windowFlags)
+            Window = new GameWindow(width, height, GraphicsMode.Default, "Gui Sharp Samples", windowFlags)
             {
                 VSync = VSyncMode.On
             };
+
+            Screen = GfxFactory.Create<IScreen>();
+            Screen.Create(width, height, Color.White, htmlDocument);
 
             Window.Load += OnLoad;
             Window.Resize += OnResize;

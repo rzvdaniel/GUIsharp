@@ -3,9 +3,9 @@ using System;
 
 namespace Gui.Sharp.Dom.Factories
 {
-    public class DomFactory
+    public class TDomFactory : IDomFactory
     {
-        public static T Create<T>()
+        public T Create<T>()
         {
             var name = typeof(T).Name;
 

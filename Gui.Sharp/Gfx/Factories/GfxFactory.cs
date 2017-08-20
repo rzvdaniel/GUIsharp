@@ -13,6 +13,8 @@ namespace Gui.Sharp.Gfx.Factories
 
             switch (name)
             {
+                case "IGfxServer":
+                    return (T)(IGfxServer)new TGLServer();
                 case "IGfxCanvas":
                     return (T)(IGfxCanvas)new TGLCanvas();
                 case "IGfxGame":

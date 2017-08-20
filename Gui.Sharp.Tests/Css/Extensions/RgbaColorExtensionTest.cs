@@ -1,6 +1,5 @@
-﻿using Gui.Sharp.Css.Extensions;
+﻿using Gui.Sharp.Dom.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenTK;
 
 namespace Gui.Sharp.Tests.Css.Extensions
 {
@@ -20,7 +19,7 @@ namespace Gui.Sharp.Tests.Css.Extensions
             Assert.IsTrue(color == grayColor);
 
             // Valid alpha (alpha is in range [0.0, 1.0]).
-            int alpha = 128;
+            float alpha = 0.5f;
             const string validAlphaColor = "rgba(60, 60, 60, 0.5)";
             color = validAlphaColor.TryGetColor(DefaultBackgroundColor);
             Assert.IsTrue(color.A == alpha);

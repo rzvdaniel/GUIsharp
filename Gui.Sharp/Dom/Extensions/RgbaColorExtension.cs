@@ -1,13 +1,12 @@
-﻿using OpenTK;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gui.Sharp.Css.Extensions
+namespace Gui.Sharp.Dom.Extensions
 {
     public static class RgbaColorExtension
     {
-        private const int FullAlpha = 255;
+        private const float FullAlpha = 1.0f;
         private const char CommaSeparator = ',';
 
         /// <summary>
@@ -53,11 +52,11 @@ namespace Gui.Sharp.Css.Extensions
                         return defaultColor;
                     }
 
-                    var red = int.Parse(colorsOnly[0]);
-                    var green = int.Parse(colorsOnly[1]);
-                    var blue = int.Parse(colorsOnly[2]);
+                    var red = byte.Parse(colorsOnly[0]) / (float)Byte.MaxValue;
+                    var green = byte.Parse(colorsOnly[1]) / (float)Byte.MaxValue;
+                    var blue = byte.Parse(colorsOnly[2]) / (float)Byte.MaxValue;
 
-                    int alpha;
+                    float alpha;
                     string alphaString = colorsOnly.Count() == 4 ? colorsOnly[3] : string.Empty;
 
                     if (string.IsNullOrEmpty(alphaString))
@@ -67,9 +66,7 @@ namespace Gui.Sharp.Css.Extensions
                     else
                     {
                         var tempAlpha = float.Parse(alphaString);
-                        alpha = tempAlpha >= 0 && tempAlpha <= 1 ?
-                            (int)Math.Ceiling(tempAlpha * 255) :
-                            FullAlpha;
+                        alpha = tempAlpha >= 0.0f && tempAlpha <= 1.0f ? tempAlpha : FullAlpha;
                     }                     
 
                     color = new Color(red, green, blue, alpha);

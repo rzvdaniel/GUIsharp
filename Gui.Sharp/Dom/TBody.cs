@@ -1,8 +1,4 @@
-﻿using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Services.Default;
-using OpenTK;
-using CssValues = AngleSharp.Css.Values;
+﻿using CssValues = AngleSharp.Css.Values;
 
 namespace Gui.Sharp.Dom
 {
@@ -10,26 +6,31 @@ namespace Gui.Sharp.Dom
     {
         public override void ComputeBoundingBox()
         {
-            BoundingBox = new RectangleF
+            BoundingBox = new Rectangle
             {
                 X = 0.0f,
                 Y = 0.0f,
-                Width = CssStyle.Width.Value != 0.0f ? CssStyle.Width.Value : TScreen.Width,
-                Height = CssStyle.Height.Value != 0.0f ? CssStyle.Height.Value : TScreen.Height,
+                Width = Css.Width.Value != 0.0f ? Css.Width.Value : TScreen.Width,
+                Height = Css.Height.Value != 0.0f ? Css.Height.Value : TScreen.Height,
             };
 
-            LeftFloatPosition = PointF.Zero;
-            RightFloatPosition = new PointF(BoundingBox.Width, 0.0f);
+            LeftFloatPosition = Point.Zero;
+            RightFloatPosition = new Point(BoundingBox.Width, 0.0f);
         }
 
-        protected override void InitStyle(AngleSharp.Dom.Css.ICssStyleDeclaration cssStyle)
+        protected override void InitCss(AngleSharp.Dom.IElement htmlElement)
         {
-            base.InitStyle(cssStyle);
+            base.InitCss(htmlElement);
 
-            if (CssStyle.Width.Value == 0.0f)
+            if (Css.Width.Value == 0.0f)
             {
-                CssStyle.Width = new CssValues.Length(TScreen.Width, CssValues.Length.Unit.None);
+                Css.Width = new CssValues.Length(TScreen.Width, CssValues.Length.Unit.None);
             }
+        }
+
+        public override void PaintText()
+        {
+            // Nothing to paint here
         }
     }
 }

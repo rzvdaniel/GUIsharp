@@ -1,20 +1,121 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SharpFont.4.0.1\build\SharpFont.props" Condition="Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" />
+  <Import Project="..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props" Condition="Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36E9007D-FFA2-4E71-A7BE-871CFF56B620}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gui.Sharp</RootNamespace>
     <AssemblyName>Gui.Sharp</AssemblyName>
-    <PackageId>Gui.Sharp</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8</PackageTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.9.9" />
-    <PackageReference Include="OpenTK.NETCore" Version="1.1.2749.6433" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
+    <Reference Include="AngleSharp">
+      <HintPath>..\packages\AngleSharp.0.9.9\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenTK, Version=3.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.0.0-pre\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickFont.ES20, Version=4.4.6159.26433, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickFont.ES20.4.4.6159.26433\lib\net45\QuickFont.ES20.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpFont, Version=4.0.1.200, Culture=neutral, PublicKeyToken=48add4c483071cdf, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpFont.4.0.1\lib\net45\SharpFont.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Core\Graphics\Color.cs" />
+    <Compile Include="Core\Math\Rectangle.cs" />
+    <Compile Include="Core\Math\Size.cs" />
+    <Compile Include="Core\Math\Point.cs" />
+    <Compile Include="Dom\Factories\IDomFactory.cs" />
+    <Compile Include="Dom\Extensions\LengthExtension.cs" />
+    <Compile Include="Dom\Extensions\RgbaColorExtension.cs" />
+    <Compile Include="Dom\Interfaces\IElementCss.cs" />
+    <Compile Include="Dom\Interfaces\IElementHtml.cs" />
+    <Compile Include="Dom\TElementCss.cs" />
+    <Compile Include="Dom\Enums\Properties\Float.cs" />
+    <Compile Include="Dom\Enums\Properties\Position.cs" />
+    <Compile Include="Dom\Extensions\HtmlFloatExtension.cs" />
+    <Compile Include="Dom\Factories\TDomFactory.cs" />
+    <Compile Include="Dom\Factories\IElementFactory.cs" />
+    <Compile Include="Dom\Factories\TElementFactory.cs" />
+    <Compile Include="Dom\Interfaces\IDocument.cs" />
+    <Compile Include="Dom\Interfaces\IElement.cs" />
+    <Compile Include="Dom\Interfaces\IScreen.cs" />
+    <Compile Include="Dom\TBody.cs" />
+    <Compile Include="Dom\TDiv.cs" />
+    <Compile Include="Dom\TDocument.cs" />
+    <Compile Include="Dom\TElement.cs" />
+    <Compile Include="Dom\TFont.cs" />
+    <Compile Include="Dom\TParagraph.cs" />
+    <Compile Include="Dom\TScreen.cs" />
+    <Compile Include="Dom\TSpan.cs" />
+    <Compile Include="Gfx\Drawing\TBrush.cs" />
+    <Compile Include="Gfx\Drawing\TBrushStyle.cs" />
+    <Compile Include="Gfx\Drawing\TPen.cs" />
+    <Compile Include="Gfx\Drawing\TPenStyle.cs" />
+    <Compile Include="Gfx\Factories\GfxFactory.cs" />
+    <Compile Include="Gfx\Interfaces\IGfxCanvas.cs" />
+    <Compile Include="Gfx\Interfaces\IGfxGame.cs" />
+    <Compile Include="Gfx\Interfaces\IGfxServer.cs" />
+    <Compile Include="Gfx\Interfaces\IFontServer.cs" />
+    <Compile Include="Gfx\OpenGL\TGLCanvas.cs" />
+    <Compile Include="Gfx\Servers\TFontServer.cs" />
+    <Compile Include="Gfx\OpenGL\TGLGame.cs" />
+    <Compile Include="Gfx\OpenGL\TGLScreenIndependent.cs" />
+    <Compile Include="Gfx\OpenGL\TGLServer.cs" />
+    <Compile Include="Gfx\Servers\TGfxServer.cs" />
+    <Compile Include="Dom\TElementHtml.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.Dependencies.2.6\build\SharpFont.Dependencies.props'))" />
+    <Error Condition="!Exists('..\packages\SharpFont.4.0.1\build\SharpFont.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpFont.4.0.1\build\SharpFont.props'))" />
+  </Target>
 </Project>

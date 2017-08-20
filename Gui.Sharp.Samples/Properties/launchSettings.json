@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Gui.Sharp.Samples": {
-      "commandName": "Project",
-      "commandLineArgs": "\"f:\\Razvan\\Projects\\GUIsharp\\Gui.Sharp.Samples\\Resources\\Div\\Float.html\""
-    }
-  }
-}

@@ -1,4 +1,4 @@
-﻿using OpenTK;
+﻿using OpenTK.Graphics;
 
 namespace Gui.Sharp.Gfx.Drawing
 {
